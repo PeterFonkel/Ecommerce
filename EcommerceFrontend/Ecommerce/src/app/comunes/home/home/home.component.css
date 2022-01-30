@@ -1,0 +1,22 @@
+
+@media (max-width: 767px){
+    .formulario{
+        position: relative; 
+        top: -280px; 
+        left: 0%; 
+        background-color:rgb(233, 233, 233); 
+        width: 90%; 
+        border-style: solid;
+    }
+}
+
+@media (min-width: 768px){
+    .formulario{
+        position: relative; 
+        top: -350px; 
+        left: 50%; 
+        background-color:rgb(233, 233, 233); 
+        width: 40%; 
+        border-style: solid;
+    }
+}

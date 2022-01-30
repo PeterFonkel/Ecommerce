@@ -1,0 +1,10 @@
+<div>
+  <form (change)="emitirPayload()" [formGroup]="form">
+    <div *ngFor="let elemento of elementosForm" class="form-row">
+      <app-elemento-formulario
+        [elementoFormulario]="elemento"
+        [form]="form"
+      ></app-elemento-formulario>
+    </div>
+  </form>
+</div>

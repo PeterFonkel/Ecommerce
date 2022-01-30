@@ -1,0 +1,20 @@
+<div class="row text-center">
+    <h1>CARRO DE LA COMPRA</h1>
+</div>
+<div class="row m-4 p-2">
+    <div class="col-1"></div>
+    <div class="col-2"><b>NOMBRE</b></div>
+    <div class="col-3"><b>DESCRIPCION</b></div>
+    <div class="col-1"><b>PRECIO</b></div>
+    <div class="col-2"><b>SECCION</b></div>
+    <div class="col-1"><b>CANTIDAD</b></div>
+</div>
+<div *ngFor="let productoCarro of carro">
+    <app-producto-carro [productoCarro]="productoCarro" (quitarUnidadEvent)="quitarUnidad($event)" (sumarUnidadEvent)="sumarUnidad($event)"></app-producto-carro>
+</div>
+
+<div class="text-center">
+    <p><b>PRECIO TOTAL: {{precioTotal}} EUROS</b></p>
+    <button class="btn btn-primary" (click)="realizarPedido()">Realizar pedido</button>
+</div>
+

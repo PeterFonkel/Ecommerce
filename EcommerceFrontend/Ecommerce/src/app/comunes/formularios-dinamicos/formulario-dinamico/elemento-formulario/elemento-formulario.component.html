@@ -1,0 +1,81 @@
+<div [formGroup]="form">
+  <label [attr.for]="elementoFormulario.key">
+    {{ elementoFormulario.label }}
+  </label>
+
+  <div [ngSwitch]="elementoFormulario.controlType">
+    <input
+      *ngSwitchCase="'textbox'"
+      [id]="elementoFormulario.key"
+      [formControlName]="elementoFormulario.key"
+      [type]="elementoFormulario.type"
+    />
+
+    <div [ngSwitch]="elementoFormulario.controlType">
+      <input
+        *ngSwitchCase="'number'"
+        [id]="elementoFormulario.key"
+        [formControlName]="elementoFormulario.key"
+        [type]="elementoFormulario.type"
+        type="number"
+        min="0"
+        max="30000"
+        placeholder="Escriba la dimension en mm"
+        data-conversion="1"
+        data-decimal="0"
+        title="El campo debe tener un valor entre 0 y 30000"
+      />
+
+      <select
+        *ngSwitchCase="'dropdown'"
+        [id]="elementoFormulario.key"
+        [formControlName]="elementoFormulario.key"
+      >
+        <option
+          *ngFor="let opt of elementoFormulario.options"
+          [value]="opt.key"
+        >
+          {{ opt.value }}
+        </option>
+      </select>
+
+      <div *ngSwitchCase="'checkBoxes'">
+        <select
+          [id]="elementoFormulario.key"
+          [formControlName]="elementoFormulario.key"
+          class="btn-group-vertical"
+          data-toggle="buttons"
+          multiple
+        >
+          <option
+            [id]="opt.key"
+            *ngFor="let opt of elementoFormulario.options"
+            [value]="opt.key"
+          >
+            {{ opt.value }}
+          </option>
+        </select>
+
+        <!-- <div *ngFor="let opt of elementoFormulario.options">
+        <input (change)="onselect(opt.key)" type="checkbox" [value]="opt.key" />
+       
+        {{ opt.value }}<br />
+      </div>
+      <br />
+      <pre>{{ elementoFormulario.value | json }}</pre> -->
+      </div>
+
+      <textarea
+        *ngSwitchCase="'textarea'"
+        [id]="elementoFormulario.key"
+        [formControlName]="elementoFormulario.key"
+        cols="30"
+        rows="10"
+      ></textarea>
+    </div>
+
+    <div class="errorMessage" *ngIf="!isValid">
+      {{ elementoFormulario.label }} is required
+    </div>
+  </div>
+</div>

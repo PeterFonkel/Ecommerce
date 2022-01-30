@@ -1,0 +1,89 @@
+<div style="display:inline;">
+    <p *ngIf="usuarioLoggeado.email; else sinLoggear" style="color: white; display: inline-flex;">Usuario:
+        {{usuarioLoggeado.email}} Rol: {{usuarioLoggeado.roles[0].rolNombre}}</p>
+    <ng-template #sinLoggear>
+        <p style="color: white; display: inline-flex;">Sin loggear</p>
+    </ng-template>
+    <button *ngIf="!usuarioLoggeado.email" type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
+        data-bs-target="#signInModal">
+        Registrarse
+    </button>
+    <button *ngIf="!usuarioLoggeado.email" type="button" class="btn btn-success m-2" data-bs-toggle="modal"
+        data-bs-target="#loginModal">
+        Identificarse
+    </button>
+    <button *ngIf="usuarioLoggeado.email" type="button" class="btn btn-danger m-2" data-bs-toggle="modal"
+        (click)="exitLogin()">
+        Salir login
+    </button>
+</div>
+
+
+<!-- Modal Login-->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div style="display: block;">
+                        <label for="">Email</label>
+                        <input type="text" class="m-3" [(ngModel)]="email" name="email">
+                    </div>
+                    <div style="display: block;">
+                        <label for="">Contraseña</label>
+                        <input type="password" class="m-3" [(ngModel)]="password1" name="password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="login()" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal signIn-->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Registrarse</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div style="display: block;" class="row">
+                        <label for="" class="col-3">Nombre</label>
+                        <input type="text" class="m-3 col-7" [(ngModel)]="usuarioNuevo.nombre" name="nombre">
+                    </div>
+                    <div style="display: block;" class="row">
+                        <label for="" class="col-3">Telefono</label>
+                        <input type="text" class="m-3 col-7" [(ngModel)]="usuarioNuevo.telefono" name="telefono">
+                    </div>
+                    <div style="display: block;" class="row">
+                        <label for="" class="col-3">Email</label>
+                        <input type="text" class="m-3 col-7" [(ngModel)]="usuarioNuevo.email" name="email">
+                    </div>
+                    <div style="display: block;" class="row">
+                        <label for="" class="col-3">Contraseña</label>
+                        <input type="password" class="m-3  col-7" [(ngModel)]="password1" name="password">
+                    </div>
+                    <div style="display: block;" class="row">
+                        <label for="" class="col-3">Repetir contraseña</label>
+                        <input type="password" class="m-3  col-7" [(ngModel)]="password2" name="password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="signin()" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

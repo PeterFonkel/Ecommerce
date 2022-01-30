@@ -1,0 +1,82 @@
+<div class="row text-center">
+  <h1>PRODUCTOS</h1>
+</div>
+
+<div *ngFor="let producto of productos">
+    <app-producto [producto]="producto" (modificarProductoEvent)="abrirModalModificacion($event)" (eliminarProductoEvent)="eliminarProducto($event)"></app-producto>
+</div>
+<div class="text-center">
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarModal">Añadir producto nuevo</button>
+</div>
+
+<!-- Modal Modificar producto-->
+<div class="modal fade" id="modificarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" class="m-4">
+                <div class="m-2 row">
+                    <label for="nombre" class="col-3">Nombre: </label>
+                    <input type="text" name="nombre" [(ngModel)]="producto.nombre" class="col-9">
+                </div>
+                <div class="m-2 row">
+                    <label for="descripcion" class="col-3">Descripción: </label>
+                    <textarea type="text" name="descripcion" [(ngModel)]="producto.descripcion" class="col-9" rows="5"></textarea>
+                </div>
+                <div class="m-2 row">
+                    <label for="" class="col-3">Precio: </label>
+                    <input type="number" name="precio" [(ngModel)]="producto.precio" class="col-9">
+                </div>
+                <div class="m-2 row">
+                  <label for="" class="col-3">Seccion: </label>
+                  <input type="text" name="seccion" [(ngModel)]="producto.seccion" class="col-9">
+              </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="modificarProducto()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Agregar producto-->
+<div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Producto Nuevo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form action="" class="m-4">
+              <div class="m-2 row">
+                  <label for="nombre" class="col-3">Nombre: </label>
+                  <input type="text" name="nombre" [(ngModel)]="productoNuevo.nombre" class="col-9">
+              </div>
+              <div class="m-2 row">
+                  <label for="descripcion" class="col-3">Descripción: </label>
+                  <textarea type="text" name="descripcion" [(ngModel)]="productoNuevo.descripcion" class="col-9" rows="5"></textarea>
+              </div>
+              <div class="m-2 row">
+                  <label for="" class="col-3">Precio: </label>
+                  <input type="number" name="precio" [(ngModel)]="productoNuevo.precio" class="col-9">
+              </div>
+              <div class="m-2 row">
+                <label for="" class="col-3">Seccion: </label>
+                <input type="text" name="seccion" [(ngModel)]="productoNuevo.seccion" class="col-9">
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="agregarProducto()">Crear producto</button>
+      </div>
+    </div>
+  </div>
+</div>

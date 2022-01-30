@@ -1,0 +1,19 @@
+<form action="" class="m-4">
+    <div class="m-2">
+        <label for="nombre">Nombre: </label>
+        <input type="text" name="nombre" [(ngModel)]="producto.nombre">
+    </div>
+    <div class="m-2">
+        <label for="descripcion">Descripción: </label>
+        <input type="text" name="descripcion" [(ngModel)]="producto.descripcion">
+    </div>
+    <div class="m-2">
+        <label for="">Precio: </label>
+        <input type="number" name="precio" [(ngModel)]="producto.precio">
+    </div>
+    <div class="m-2">
+        <label for="">Seccion: </label>
+        <input type="text" name="seccion" [(ngModel)]="producto.seccion">
+    </div>
+    <button class="btn btn-primary" (click)="postProducto()">Cargar Producto</button>
+</form>

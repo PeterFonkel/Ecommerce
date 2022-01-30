@@ -1,0 +1,25 @@
+<div class="card m-4" style="width: 18rem; box-shadow: 2px 2px 10px #666;">
+
+    <img src="..." class="card-img-top" alt="...">
+
+    <div class="card-body">
+
+        <h5 class="card-title text-center"><b>{{producto.nombre}}</b></h5>
+        <p class="card-text">{{producto.descripcion}}</p>
+        <p class="card-text">Seccion: {{producto.seccion}}</p>
+        <p class="card-text"><b>{{producto.precio}} EUROS</b></p>
+
+        <div class="row">
+
+            <div *ngIf="isLoggedAdmin">
+                <button class="col-5 btn btn-danger m-1" (click)="eliminarProducto()">ELIMINAR</button>
+                <button class="col-6 btn btn-warning" (click)="abrirModalModificacion()">MODIFICAR</button>
+            </div>
+            <div *ngIf="isLoggedUser && !isLoggedAdmin">
+                <div class="col-1"></div>
+                <div class="col-12 btn btn-success" (click)="agregarProducto()">AÑADIR AL CARRO</div>
+            </div>
+
+        </div>
+    </div>
+</div>

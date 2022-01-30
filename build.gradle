@@ -1,0 +1,82 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'java-library'
+	id 'eclipse'
+	id 'application'
+}
+group = 'com.peterfonkel'
+version = '0.0.2-RELEASE'
+
+sourceCompatibility = '1.8'
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+	
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.5.5'	
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'com.google.firebase:firebase-admin:8.1.0'
+	implementation 'com.google.api-client:google-api-client:1.30.9'
+	//no se implementa de momento
+//    implementation 'org.springframework.boot:spring-boot-starter-social-facebook:1.5.22.RELEASE'
+
+	//Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+ 	testImplementation 'org.springframework.security:spring-security-test'
+
+	
+	//DataBase
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	
+	implementation 'org.mapstruct:mapstruct:1.3.1.Final'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+  	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+}
+
+
+dependencyManagement {
+     imports {
+          mavenBom 'org.keycloak.bom:keycloak-adapter-bom:11.0.0'
+     }
+}
+
+test {
+	useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.peterfonkel.authFirebaseJWT.authFirebaseJWTApplication'
+        )
+    }
+}

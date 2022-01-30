@@ -1,0 +1,35 @@
+/* Escudo del CID */
+.escudoPantallaGrande{
+    width: 80px; 
+    margin-right: 40px;
+    position: absolute;
+    right: 0%;
+    top: 15%;
+}
+.escudoPantallaPequena{
+    width: 40px; 
+    margin-right: 40px;
+}
+
+/* Imagen del Título Tizona */
+.tituloPantallaGrande{
+    width: 350px;
+}
+.tituloPantallaPequena{
+    width: 210px;
+}
+#navbarSupportedContent{
+    margin-right: 250px;
+    font-size:medium;
+}
+.nav-item {
+    width: max-content;
+    display: inline-flex;
+}
+.login{
+    position: relative;
+    margin: auto;
+}
+.navegacion{
+    margin-left: 50%;
+}

@@ -1,0 +1,30 @@
+<div class="row text-center">
+    <h1>TUS PEDIDOS</h1>
+</div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-2">
+        <button class="btn btn-primary"  (click)="filtrar('no_enviados')">Pendientes enviar</button>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-primary" (click)="filtrar('enviados')">Enviados</button>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-primary" (click)="filtrar('entregados')">Entregados</button>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-primary" (click)="getPedidos()">Todos</button>
+    </div>
+    
+</div>
+<div class="row mx-4 my-2 p-2">
+    <div class="col-1"></div>
+    <div class="col-1"><b>Nº PEDIDO</b></div>
+    <div class="col-2"><b>FECHA PEDIDO</b></div>
+    <div class="col-2"><b>FECHA ENVIO</b></div>
+    <div class="col-1"><b>PRECIO</b></div>
+    <div class="col-2"><b>FECHA RECIBIDO</b></div>
+</div>
+<div *ngFor="let pedido of pedidos">
+    <app-pedido [pedido]="pedido" (refreshEvent)="ngOnInit()"></app-pedido>
+</div>

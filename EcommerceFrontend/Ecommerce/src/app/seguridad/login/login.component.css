@@ -1,0 +1,16 @@
+.botones-login{
+    width: max-content;
+    margin: auto;
+}
+
+.btn{
+    border: black;
+}
+.usuario-logeado{
+    font-size: large;
+}
+
+.modal-header{
+    background-color: blueviolet;
+    color: white;
+}
