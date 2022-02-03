@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../models/producto';
+import { ImagenesService } from './imagenes.service';
 
 const cabecera = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -15,7 +16,7 @@ export class ProductosService {
   endpoint: string = environment.urlAPI;
   productosMapeado: Producto[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private imagenesService: ImagenesService) { }
 
   getProductos(): Observable<any[]> {
     return this.http.get<any[]>(this.endpoint + "/productos", cabecera)
@@ -50,6 +51,7 @@ export class ProductosService {
 
   deleteProducto(id: string): Observable<any> {
     console.log(id);
+    this.imagenesService.deleteNode(Number(id));
     return this.http.delete(this.endpoint + "/productos/" + id, cabecera);
   }
 

@@ -7,7 +7,8 @@
     <div class="col-1">{{pedido.precioTotal}}</div>
     <div *ngIf="pedido.fechaEntrega; else noRecibido"class="col-2">{{fechaEntrega}}</div>
     <ng-template #noRecibido><div class="col-2">Pendiente</div></ng-template>
-    <div class="col-1"><button class="btn btn-primary" (click)="eliminarPedido()">ELIMINAR</button></div>
-    <div class="col-1"><button class="btn btn-primary" (click)="enviarPedido()">ENVIAR</button></div>
-    <div class="col-1"><button class="btn btn-primary" (click)="entregarPedido()">ENTREGAR</button></div>
+    <div *ngIf="isLoggedAdmin" class="col-1"><button class="btn btn-primary" (click)="eliminarPedido()">ELIMINAR</button></div>
+    <div *ngIf="isLoggedAdmin" class="col-1"><button class="btn btn-primary" (click)="enviarPedido()">ENVIAR</button></div>
+    <div *ngIf="isLoggedAdmin" class="col-1"><button class="btn btn-primary" (click)="entregarPedido()">ENTREGAR</button></div>
+    <div class="col-1"><button class="btn btn-primary">VER PEDIDO</button></div>
 </div>

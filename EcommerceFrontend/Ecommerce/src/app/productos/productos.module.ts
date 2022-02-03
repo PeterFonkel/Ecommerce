@@ -8,10 +8,12 @@ import { ProductosFormComponent } from './productos-form/productos-form.componen
 import { FormsModule } from '@angular/forms';
 import { ProductoCarroComponent } from './carro/producto-carro/producto-carro.component';
 import { CarroComponent } from './carro/carro.component';
+import { ImagenComponent } from './productos/imagen/imagen.component';
+import { ProductoFichaComponent } from './producto-ficha/producto-ficha.component';
 
 
 @NgModule({
-  declarations: [ProductosComponent, ProductoComponent, ProductosFormComponent, CarroComponent, ProductoCarroComponent],
+  declarations: [ProductosComponent, ProductoComponent, ProductosFormComponent, CarroComponent, ProductoCarroComponent, ImagenComponent, ProductoFichaComponent],
   imports: [
     CommonModule,
     ProductosRoutingModule,

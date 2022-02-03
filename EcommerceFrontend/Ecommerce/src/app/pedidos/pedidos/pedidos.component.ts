@@ -16,9 +16,18 @@ export class PedidosComponent implements OnInit {
   isLoggedUser;
   isLoggedAdmin;
 
-  constructor(private pedidosService: PedidosService, private productosService: ProductosService, private loginService: LoginService, private usuariosService: UsuariosService) { }
+  constructor(
+    private pedidosService: PedidosService, 
+    private productosService: ProductosService, 
+    private loginService: LoginService, 
+    private usuariosService: UsuariosService) { }
 
   ngOnInit() {
+    this.obtenerPerfilDeUsuario();
+    this.getPedidos();
+  }
+
+  obtenerPerfilDeUsuario(): void {
     //obtengo si esta autenticado y si es admin y me suscribo para configurar lo que se muestra
     this.loginService.getIsLoggedFlagObs().subscribe((flag) => {
       this.isLoggedUser = flag;
@@ -26,8 +35,8 @@ export class PedidosComponent implements OnInit {
     this.loginService.getIsAdminFlagObs().subscribe((flag) => {
       this.isLoggedAdmin = flag;
     });
-    this.getPedidos();
   }
+
   getPedidos(): void {
     if (this.isLoggedUser && !this.isLoggedAdmin) {
       this.pedidosService.getPedidos().subscribe(pedidosApi => {

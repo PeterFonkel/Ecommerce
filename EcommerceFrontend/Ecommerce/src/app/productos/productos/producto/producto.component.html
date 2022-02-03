@@ -1,16 +1,15 @@
-<div class="card m-4" style="width: 18rem; box-shadow: 2px 2px 10px #666;">
-
-    <img src="..." class="card-img-top" alt="...">
-
+<div class="card mx-4 mt-3" style="width: auto; box-shadow: 2px 2px 10px #666;">
     <div class="card-body">
-
-        <h5 class="card-title text-center"><b>{{producto.nombre}}</b></h5>
-        <p class="card-text">{{producto.descripcion}}</p>
+        <div class="imagen-card text-center" style="height: 200px;">
+            <img [src]="urlTrusted" alt="" style="height: 180px; width: auto; top:50%; left: 50%;" class="e2e-trusted-url card-img-top">
+        </div>
+        
+        <h5 class="card-title text-center mt-1" style="height:5vh;"><b>{{producto.nombre}}</b></h5>
+        <p class="card-text" style="height:10vh;">{{producto.descripcion}}</p>
         <p class="card-text">Seccion: {{producto.seccion}}</p>
-        <p class="card-text"><b>{{producto.precio}} EUROS</b></p>
+        <p class="card-text text-center"><b>{{producto.precio}} EUROS</b></p>
 
-        <div class="row">
-
+        <div class="row text-center">
             <div *ngIf="isLoggedAdmin">
                 <button class="col-5 btn btn-danger m-1" (click)="eliminarProducto()">ELIMINAR</button>
                 <button class="col-6 btn btn-warning" (click)="abrirModalModificacion()">MODIFICAR</button>

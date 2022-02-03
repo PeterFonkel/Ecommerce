@@ -1,51 +1,56 @@
-<div class="row text-center">
+<div class="row text-center mt-3">
   <h1>PRODUCTOS</h1>
 </div>
 
-<div *ngFor="let producto of productos">
-    <app-producto [producto]="producto" (modificarProductoEvent)="abrirModalModificacion($event)" (eliminarProductoEvent)="eliminarProducto($event)"></app-producto>
+<div *ngFor="let producto of productos" style="display:inline-block;" class="col-12 col-lg-3">
+  <app-producto *ngIf="producto.imagenPrincipal[0] !== undefined" [producto]="producto"
+    (modificarProductoEvent)="abrirModalModificacion($event)" (eliminarProductoEvent)="eliminarProducto($event)">
+  </app-producto>
 </div>
-<div class="text-center">
+
+
+<div class="text-center m-4">
   <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarModal">Añadir producto nuevo</button>
 </div>
 
 <!-- Modal Modificar producto-->
 <div class="modal fade" id="modificarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form action="" class="m-4">
-                <div class="m-2 row">
-                    <label for="nombre" class="col-3">Nombre: </label>
-                    <input type="text" name="nombre" [(ngModel)]="producto.nombre" class="col-9">
-                </div>
-                <div class="m-2 row">
-                    <label for="descripcion" class="col-3">Descripción: </label>
-                    <textarea type="text" name="descripcion" [(ngModel)]="producto.descripcion" class="col-9" rows="5"></textarea>
-                </div>
-                <div class="m-2 row">
-                    <label for="" class="col-3">Precio: </label>
-                    <input type="number" name="precio" [(ngModel)]="producto.precio" class="col-9">
-                </div>
-                <div class="m-2 row">
-                  <label for="" class="col-3">Seccion: </label>
-                  <input type="text" name="seccion" [(ngModel)]="producto.seccion" class="col-9">
-              </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" (click)="modificarProducto()">Guardar cambios</button>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" class="m-4">
+          <div class="m-2 row">
+            <label for="nombre" class="col-3">Nombre: </label>
+            <input type="text" name="nombre" [(ngModel)]="producto.nombre" class="col-9">
+          </div>
+          <div class="m-2 row">
+            <label for="descripcion" class="col-3">Descripción: </label>
+            <textarea type="text" name="descripcion" [(ngModel)]="producto.descripcion" class="col-9"
+              rows="5"></textarea>
+          </div>
+          <div class="m-2 row">
+            <label for="" class="col-3">Precio: </label>
+            <input type="number" name="precio" [(ngModel)]="producto.precio" class="col-9">
+          </div>
+          <div class="m-2 row">
+            <label for="" class="col-3">Seccion: </label>
+            <input type="text" name="seccion" [(ngModel)]="producto.seccion" class="col-9">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="modificarProducto()" data-bs-dismiss="modal">Guardar cambios</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal Agregar producto-->
+<!-- Modal Agregar producto-->
 <div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -54,25 +59,55 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <form action="" class="m-4">
-              <div class="m-2 row">
-                  <label for="nombre" class="col-3">Nombre: </label>
-                  <input type="text" name="nombre" [(ngModel)]="productoNuevo.nombre" class="col-9">
-              </div>
-              <div class="m-2 row">
-                  <label for="descripcion" class="col-3">Descripción: </label>
-                  <textarea type="text" name="descripcion" [(ngModel)]="productoNuevo.descripcion" class="col-9" rows="5"></textarea>
-              </div>
-              <div class="m-2 row">
-                  <label for="" class="col-3">Precio: </label>
-                  <input type="number" name="precio" [(ngModel)]="productoNuevo.precio" class="col-9">
-              </div>
-              <div class="m-2 row">
-                <label for="" class="col-3">Seccion: </label>
-                <input type="text" name="seccion" [(ngModel)]="productoNuevo.seccion" class="col-9">
+        <form action="" class="">
+          <div class="m-2 row">
+            <label for="nombre" class="col-3">Nombre: </label>
+            <input type="text" name="nombre" [(ngModel)]="productoNuevo.nombre" class="col-9">
+          </div>
+          <div class="m-2 row">
+            <label for="descripcion" class="col-3">Descripción: </label>
+            <textarea type="text" name="descripcion" [(ngModel)]="productoNuevo.descripcion" class="col-9"
+              rows="5"></textarea>
+          </div>
+
+          <div class="m-2 row">
+            <label for="" class="col-3">Precio: </label>
+            <input type="number" name="precio" [(ngModel)]="productoNuevo.precio" class="col-9">
+          </div>
+          <div class="m-2 row">
+            <label for="" class="col-3">Seccion: </label>
+            <input type="text" name="seccion" [(ngModel)]="productoNuevo.seccion" class="col-9">
+          </div>
+        </form>
+
+        <div class="m-1">
+          <div id="cargarImagenes" class="m-4">
+            <div>
+              <h5>Cargar imagen principal</h5>
+              <form action="" id="uploader1" class="my-2">
+                <input type="file" id="file" (change)="seleccionarImagen($event)">
+              </form>
             </div>
-          </form>
+            <div *ngIf="imagenPrincipalASubir.nombre !== ''" class="container-fluid" id="imagenUnica">
+              <app-imagen [imagen]=imagenPrincipalASubir [id]=id (deselectImageEvent)="deseleccionarImagen($event)">
+              </app-imagen>
+            </div>
+            <div class="mt-3">
+              <h5>Cargar imagenes secundarias</h5>
+              <form action="" id="uploader2" class="my-2">
+                <input type="file" multiple="true" name="archivos[]" id="files" (change)="seleccionarImagenes($event)">
+              </form>
+            </div>
+            <div class="container-fluid" id="imagenesVarias">
+              <div *ngFor="let imagen of imagenesSecundariasASubir" class="m-1 bucleFotografias"
+                style="display: inline-block;">
+                <app-imagen [imagen]=imagen [id]=id (deselectImageEvent)="deseleccionarImagenes($event)"></app-imagen>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-primary" (click)="agregarProducto()">Crear producto</button>
