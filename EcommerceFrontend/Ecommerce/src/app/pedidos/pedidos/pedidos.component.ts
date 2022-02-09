@@ -39,13 +39,12 @@ export class PedidosComponent implements OnInit {
 
   getPedidos(): void {
     if (this.isLoggedUser && !this.isLoggedAdmin) {
-      this.pedidosService.getPedidos().subscribe(pedidosApi => {
-        this.pedidos = this.pedidosService.mapearPedidos(pedidosApi);
+      this.pedidosService.getPedidos().subscribe(pedidos => {
+        this.pedidos = pedidos,
         this.pedidos.forEach(pedido => {
           pedido.id = this.pedidosService.getIdPedido(pedido);
           pedido.precioTotal = 0;
           this.pedidosService.getPedidoFromPedidosApi(pedido).subscribe(pedidoApi => {
-            console.log(pedidoApi)
             this.pedidosService.getUsuarioFromPedido(pedido).subscribe(usuarioApi=>{
               pedido.usuario = usuarioApi;
             })
@@ -67,8 +66,8 @@ export class PedidosComponent implements OnInit {
       })
     }
     if (this.isLoggedAdmin) {
-      this.pedidosService.getAllPedidos().subscribe(pedidosApi => {
-        this.pedidos = this.pedidosService.mapearPedidos(pedidosApi);
+      this.pedidosService.getAllPedidos().subscribe(pedidos => {
+        this.pedidos = pedidos;
         this.pedidos.forEach(pedido => {
           
           pedido.id = this.pedidosService.getIdPedido(pedido);

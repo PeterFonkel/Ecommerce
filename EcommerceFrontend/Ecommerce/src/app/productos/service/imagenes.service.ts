@@ -9,7 +9,6 @@ import "firebase/auth";
 import { Imagen } from '../models/imagen';
 import { Observable, of } from 'rxjs';
 import { firebaseConfig } from 'src/environments/firebaseConfig';
-import { async } from '@angular/core/testing';
 
 const app = firebase.initializeApp(firebaseConfig.firebaseConfig);
 
@@ -20,7 +19,7 @@ export class ImagenesService {
 
   constructor() { }
 
-  getImagenPrincipal(id: number): Observable<Imagen[]> {
+  getImagenPrincipal(id: string): Observable<Imagen[]> {
     let imagenes: Imagen[] = [];
     //Creo la referencia al nodo que quiero recuperar
     var imagenPrincipalRef = firebase
@@ -30,24 +29,20 @@ export class ImagenesService {
     //Recupero la informacion y la asigno al array de imagenes
     imagenPrincipalRef.on("value", (snapshot) => {
       let data = snapshot.val();
-      console.log("Data: ", data)
       for (var key in data) {
         let imagen = new Imagen();
         imagen.url = data[key].url;
         imagen.nombre = data[key].nombre;
         imagen.tipo = data[key].tipo;
         imagenes.push(imagen);
-        console.log(imagenes)
       }
     });
-    console.log(imagenes)
     return of(imagenes);
   }
 
-  getImagenesSecundarias(id: number): Observable<Imagen[]> {
+  getImagenesSecundarias(id: string): Observable<Imagen[]> {
     let secundarias: Imagen[] 
     secundarias = [];
-    console.log("Recien creado array:", secundarias)
     //Creo la referencia al nodo que quiero recuperar
     var imagenesSecundariasRef = firebase
       .database()
@@ -56,8 +51,6 @@ export class ImagenesService {
     //Recupero la informacion y la asigno al array de imagenes
     let onDataChange = imagenesSecundariasRef.on("value", (snapshot) => {
       let data = snapshot.val();
-      console.log("Data: ", data);
-      console.log("Secundarias antes del for", secundarias)
       for (var key in data) {
         let imagen = new Imagen();
         imagen.url = data[key].url;
@@ -66,12 +59,11 @@ export class ImagenesService {
         secundarias.push(imagen);
       }
       imagenesSecundariasRef.off("value", onDataChange);
-      console.log("Secundarias despues del for", secundarias);
     });
     return of(secundarias);
   }
 
-  subirImagen(file: File, id: number, tipo: string): void {
+  subirImagen(file: File, id: string, tipo: string): void {
     let arrayNombre = file.name.split(".");
     //Creo una referencia en el storage
     var storageRef = firebase.storage().ref().child(`imagenes/${id}/${tipo}/${arrayNombre[0]}`);
@@ -91,7 +83,7 @@ export class ImagenesService {
   }
 
   //Eliminar una imagen de un producto determinado
-  deleteImage(imagen: Imagen, id: number): void {
+  deleteImage(imagen: Imagen, id: string): void {
     console.log("en delete, Imagen: ", imagen, " , id: ", id)
     let nombreSinPunto = imagen.nombre.split(".")[0];
     let imagenRef = firebase
@@ -106,8 +98,17 @@ export class ImagenesService {
     imagenStorageRef.delete();
   }
 
+  deleteSecundarias(id: string): Observable<string>{
+    let nodeRef = firebase.database().ref().child(`imagenes/${id}/secundaria/`);
+    nodeRef.remove();
+    //Borrado de la carpeta correspondiente en Storage
+    this.deleteFolderContents(`imagenes/${id}/secundaria/`);
+    let response = new Object();
+    return of("response");
+  }
+
   //Metodo para borrar un nodo dela base de datos de Firebase
-  deleteNode(id: number): void {
+  deleteNode(id: string): void {
     let nodeRef = firebase.database().ref().child(`imagenes/${id}/`);
     nodeRef.remove();
     //Borrado de la carpeta correspondiente en Storage

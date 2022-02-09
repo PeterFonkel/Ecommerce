@@ -12,6 +12,7 @@ import { fichaInterceptor } from "./seguridad/interceptors/ficha.interceptor";
 import { SeguridadModule } from "./seguridad/seguridad.module";
 import { ProductosModule } from "./productos/productos.module";
 import { PedidosModule } from "./pedidos/pedidos.module";
+import { SeccionesModule } from "./secciones/secciones.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { PedidosModule } from "./pedidos/pedidos.module";
     AcercaModule,
     SeguridadModule,
     ProductosModule,
-    PedidosModule
+    PedidosModule,
+    SeccionesModule
   ],
   providers: [fichaInterceptor],
   bootstrap: [AppComponent],

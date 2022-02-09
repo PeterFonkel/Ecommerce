@@ -16,6 +16,7 @@ export class ProductoCarroComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   quitarUnidad(): void {
     this.quitarUnidadEvent.emit(this.productoCarro);
   }

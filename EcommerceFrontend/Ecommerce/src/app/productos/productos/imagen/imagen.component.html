@@ -1,11 +1,10 @@
 <div *ngIf="imagen.nombre!==''" style="border: 1px; display: inline;" class="container-fluid">
-    <div class="card" style="width:11vw; height: 13.5vw;"> 
-        <div class="card-img-box m-2" style="height: 10vw;">
-            <img [src]="urlTrusted" alt="" style="width: 10vw;" class="e2e-trusted-url card-img-top">
+    <div class="card" style="width:11vw; height: auto;">
+        <div class="card-img-box m-2" style="height: fit-content;">
+            <img [src]="urlTrusted" alt="" class="img-fluid">
         </div>
         <div class="card-body">
-          <p class="card-title" style="font-size: 1vw;">{{imagen.nombre}}</p>
-          <button class="btn btn-danger" (click)="deseleccionarImagen()">Eliminar</button>
-           
-      </div>
-</div>
+            <p class="card-title" style="font-size: 1vw;">{{imagen.nombre}}</p>
+            <button class="btn btn-danger" (click)="deseleccionarImagen()">Eliminar</button>
+        </div>
+    </div>

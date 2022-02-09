@@ -35,6 +35,12 @@ const routes: Routes = [
       import("src/app/pedidos/pedidos.module").then(
         (m) => m.PedidosModule ),
     canActivate: [AdminGuard],
+  },{
+    path: `secciones`,
+    loadChildren: () =>
+      import("src/app/secciones/secciones.module").then(
+        (m) => m.SeccionesModule),
+    canActivate: [UsuarioGuard],
   },
   {
     path: `**`,

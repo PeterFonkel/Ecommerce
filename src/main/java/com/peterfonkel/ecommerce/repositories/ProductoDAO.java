@@ -13,6 +13,8 @@ import com.peterfonkel.ecommerce.entities.Producto;
 public interface ProductoDAO extends JpaRepository<Producto, Long> {
 
 	List<Producto> findAll();
+	
+	List<Producto> findByPublicado(Boolean publicado);
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Override

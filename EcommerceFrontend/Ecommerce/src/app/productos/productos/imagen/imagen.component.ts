@@ -11,7 +11,6 @@ import { Imagen } from '../../models/imagen';
 export class ImagenComponent implements OnInit {
 
   @Input() imagen!: Imagen;
-  @Input() id!: number;
   urlTrusted!: SafeUrl;
   @Output() deselectImageEvent = new EventEmitter<Imagen>();
 
@@ -19,6 +18,7 @@ export class ImagenComponent implements OnInit {
 
   ngOnInit(): void {
     this.urlTrusted = this.sanitizer.bypassSecurityTrustUrl(this.imagen.url);
+    console.log("IMAGEN: ", this.imagen)
   }
   deseleccionarImagen(): void {
     this.deselectImageEvent.emit(this.imagen);

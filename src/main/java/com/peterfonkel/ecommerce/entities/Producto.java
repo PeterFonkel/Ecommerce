@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.experimental.PackagePrivate;
@@ -23,10 +24,14 @@ public class Producto {
 	Long id;
 	private String nombre;
 	private String descripcion;
+	public String descripcionLarga;
 	private float precio;
-	private String seccion;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "producto")
+	@OneToOne(optional = true)
+	private Seccion seccion;
+	private Boolean publicado = true;
+
+	@OneToMany
 	private List<ProductoCarro> productoCarro = new ArrayList<ProductoCarro>();
 
 	public Producto() {
@@ -72,11 +77,11 @@ public class Producto {
 		this.precio = precio;
 	}
 
-	public String getSeccion() {
+	public Seccion getSeccion() {
 		return seccion;
 	}
 
-	public void setSeccion(String seccion) {
+	public void setSeccion(Seccion seccion) {
 		this.seccion = seccion;
 	}
 
@@ -90,6 +95,22 @@ public class Producto {
 
 	public void addProductoCarro(ProductoCarro productoCarro) {
 		this.productoCarro.add(productoCarro);
+	}
+	
+	public Boolean getPublicado() {
+		return publicado;
+	}
+
+	public void setPublicado(Boolean publicado) {
+		this.publicado = publicado;
+	}
+
+	public String getDescripcionLarga() {
+		return descripcionLarga;
+	}
+
+	public void setDescripcionLarga(String descripcionLarga) {
+		this.descripcionLarga = descripcionLarga;
 	}
 
 	@Override

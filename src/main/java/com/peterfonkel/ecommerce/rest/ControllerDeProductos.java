@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.peterfonkel.ecommerce.entities.Producto;
 import com.peterfonkel.ecommerce.entities.ProductoCarro;
+import com.peterfonkel.ecommerce.entities.Seccion;
 import com.peterfonkel.ecommerce.login.usuarios.UsuarioDAO;
 import com.peterfonkel.ecommerce.login.usuarios.entidades.Usuario;
 import com.peterfonkel.ecommerce.repositories.ProductoCarroDAO;
 import com.peterfonkel.ecommerce.repositories.ProductoDAO;
+import com.peterfonkel.ecommerce.repositories.SeccionDAO;
 
 @PreAuthorize("authenticated")
 @RepositoryRestController
@@ -39,12 +41,16 @@ public class ControllerDeProductos {
 
 	@Autowired
 	UsuarioDAO usuarioDAO;
+	
+	@Autowired
+	SeccionDAO seccionDAO;
 
 	@Autowired
-	public ControllerDeProductos(ProductoDAO productoDAO, UsuarioDAO usuarioDAO, ProductoCarroDAO productoCarroDAO) {
+	public ControllerDeProductos(ProductoDAO productoDAO, UsuarioDAO usuarioDAO, ProductoCarroDAO productoCarroDAO, SeccionDAO seccionDAO) {
 		this.productoDAO = productoDAO;
 		this.usuarioDAO = usuarioDAO;
 		this.productoCarroDAO = productoCarroDAO;
+		this.seccionDAO = seccionDAO;
 
 	}
 
@@ -61,6 +67,7 @@ public class ControllerDeProductos {
 	@ResponseBody
 	public PersistentEntityResource postProducto(@RequestBody Producto producto,
 			PersistentEntityResourceAssembler assembler) {
+		producto.setSeccion(seccionDAO.findById(producto.getSeccion().getId()).get());
 		Producto productoGuardado = productoDAO.save(producto);
 		return assembler.toModel(productoGuardado);
 	}
@@ -77,7 +84,8 @@ public class ControllerDeProductos {
 	@ResponseBody
 	public PersistentEntityResource patchProducto(@RequestBody Producto producto, @PathVariable("id") Long id,
 			PersistentEntityResourceAssembler assembler) {
-		productoDAO.deleteById(id);
+		producto.setSeccion(seccionDAO.findById(producto.getSeccion().getId()).get());
+		
 		Producto productoModificado = productoDAO.save(producto);
 		return assembler.toModel(productoModificado);
 	}
@@ -150,5 +158,12 @@ public class ControllerDeProductos {
 		Optional<Usuario> usuario = usuarioDAO.findById(id);
 		usuario.orElseThrow().vaciarCarro();
 		usuarioDAO.save(usuario.get());
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+	@GetMapping("/getProductosPublicados")
+	@ResponseBody
+	public CollectionModel<PersistentEntityResource> getProductosPublicados(PersistentEntityResourceAssembler assembler) {
+		return assembler.toCollectionModel(productoDAO.findByPublicado(true));
 	}
 }

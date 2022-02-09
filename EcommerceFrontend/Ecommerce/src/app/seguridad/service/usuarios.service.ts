@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs'
-import { Pedido } from 'src/app/pedidos/models/Pedido';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Producto } from 'src/app/productos/models/producto';
 import { ProductoCarro } from 'src/app/productos/models/ProductoCarro';
 import { environment } from 'src/environments/environment';
 import { Usuario } from '../models/Usuario';
@@ -27,8 +28,8 @@ export class UsuariosService {
     let usuarios = this.http.get<any>(this.endPoint, cabecera);
     return usuarios;
   }
-  getCarroFronUsuario(usuarioApi): Observable<any> {
-    return this.http.get(usuarioApi._links.carro.href, cabecera);
+  getCarroFromUsuario(usuarioApi: any): Observable<ProductoCarro[]> {
+    return this.http.get<any>(usuarioApi._links.carro.href, cabecera).pipe(map(response=>response._embedded.productoCarros));
   } 
   mapearCarro(carroApi: any): any[] {
     return carroApi._embedded.productoCarros;

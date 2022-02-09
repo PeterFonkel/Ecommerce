@@ -1,1 +1,90 @@
-<p>producto-ficha works!</p>
+<h4 class="titulo text-center mt-4"><b>{{producto.nombre}}</b></h4>
+<div class="row m-4 imagenes">
+    <div class="col-6 text-center" *ngIf="producto.imagenPrincipal[0]">
+        <img [src]="producto.imagenPrincipal[0].url" alt="" class="img-fluid" style="height: 23vw;">
+    </div>
+
+    <div class="col-6">
+        <div class="row">
+            <div class="col-4 text-center" *ngFor="let imagen of producto.imagenesSecundarias">
+                <img [src]="imagen.url" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="datos">
+    <p class="mx-4">{{producto.descripcionLarga}}</p>
+    <p *ngIf="producto.seccion" class="mx-4 text-center">SECCION: {{producto.seccion.nombre}}</p>
+    <p class="text-center"><b>PRECIO: {{producto.precio}}</b></p>
+</div>
+<div *ngIf="isLoggedAdmin" class="text-center">
+    <button class="btn btn-warning m-1" (click)="abrirModalModificacion()">MODIFICAR PRODUCTO</button>
+    <button class="btn btn-danger m-1" (click)="eliminarProducto()">ELIMINAR PRODUCTO</button>
+    <button *ngIf="producto.publicado" class="btn btn-secondary m-1" (click)="retirarProducto()">RETIRAR</button>
+    <button *ngIf="!producto.publicado" class="btn btn-success m-1" (click)="publicarProducto()">PUBLICAR</button>
+</div>
+<div *ngIf="isLoggedUser && !isLoggedAdmin" class="text-center">
+    <button class="btn btn-success m-1" (click)="agregarProducto()">AÑADIR AL CARRO DE LA COMPRA</button>
+
+</div>
+
+
+<!-- Modal Modificar producto-->
+<div class="modal fade" id="modificarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="m-4">
+                    <div class="m-2 row">
+                        <label for="nombre" class="col-3">Nombre: </label>
+                        <input type="text" name="nombre" [(ngModel)]="producto.nombre" class="col-9">
+                    </div>
+                    <div class="m-2 row">
+                        <label for="descripcion" class="col-3">Descripción corta: </label>
+                        <textarea type="text" name="descripcion" [(ngModel)]="producto.descripcion" class="col-9"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="m-2 row">
+                        <label for="descripcion" class="col-3">Descripción Larga: </label>
+                        <textarea type="text" name="descripcionLarga" [(ngModel)]="producto.descripcionLarga"
+                            class="col-9" rows="12"></textarea>
+                    </div>
+                    <div class="m-2 row">
+                        <label for="" class="col-3">Precio: </label>
+                        <input type="number" name="precio" [(ngModel)]="producto.precio" class="col-9">
+                    </div>
+                    <div *ngIf="producto.seccion" class="m-2 row">
+                        <label for="" class="col-3">Seccion: </label>
+                        <select name="seccion" id="" [(ngModel)]="producto.seccion.id">Seccion:
+                            <option *ngFor="let seccion of secciones" value={{seccion.id}}>{{seccion.nombre}}</option>
+                        </select>
+                      </div>
+                    <hr>
+                    <div class="m-2 row" style="justify-content: center;">
+                        <h5 for="" class="m-2 col-8">Cambiar imagen principal</h5>
+                        <form action="" id="uploader1" class="my-2">
+                            <input type="file" id="file" (change)="seleccionarImagen($event)">
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="m-2 row" style="justify-content: center;">
+                        <h5 for="" class="my-2 col-10">Cambiar imagenes secundarias</h5>
+                        <form action="" id="uploader2" class="my-2">
+                            <input type="file" multiple="true" name="secundarias" id="files"
+                                (change)="seleccionarImagenes($event)">
+                        </form>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="button" class="btn btn-success" (click)="modificarProducto()"
+                    data-bs-dismiss="modal">APLICAR CAMBIOS</button>
+            </div>
+        </div>
+    </div>
+</div>

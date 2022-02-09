@@ -1,24 +1,33 @@
 <div class="card mx-4 mt-3" style="width: auto; box-shadow: 2px 2px 10px #666;">
     <div class="card-body">
-        <div class="imagen-card text-center" style="height: 200px;">
-            <img [src]="urlTrusted" alt="" style="height: 180px; width: auto; top:50%; left: 50%;" class="e2e-trusted-url card-img-top">
+        <div class="btn" style="display:block;" (click)="verFicha()">
+            <div class="imagen-card text-center" style="height: 200px;">
+                <img [src]="producto.imagenPrincipal[0].url" alt="" style="height: 180px; width:auto; top:50%;"
+                    class="e2e-trusted-url card-img-top img-fluid">
+            </div>
+            <h5 class="card-title text-center mt-1" style="height:5vh;"><b>{{producto.nombre}}</b></h5>
+            <div class="card-text text-center">
+                <h5 *ngIf="!producto.publicado" class="text-center" style="color: red;"><b>NO PUBLICADO</b></h5>
+                <p class="card-text" style="height:10vh; text-align: justify;">{{producto.descripcion}}</p>
+                <p *ngIf="producto.seccion" class="card-text">Seccion: {{producto.seccion.nombre}}</p>
+                <p class="card-text text-center"><b>{{producto.precio}} EUROS</b></p>
+            </div>
         </div>
-        
-        <h5 class="card-title text-center mt-1" style="height:5vh;"><b>{{producto.nombre}}</b></h5>
-        <p class="card-text" style="height:10vh;">{{producto.descripcion}}</p>
-        <p class="card-text">Seccion: {{producto.seccion}}</p>
-        <p class="card-text text-center"><b>{{producto.precio}} EUROS</b></p>
-
-        <div class="row text-center">
+        <div class="botones row text-center">
             <div *ngIf="isLoggedAdmin">
-                <button class="col-5 btn btn-danger m-1" (click)="eliminarProducto()">ELIMINAR</button>
-                <button class="col-6 btn btn-warning" (click)="abrirModalModificacion()">MODIFICAR</button>
+                <!-- <div class="row">
+                    <button class="col-5 btn btn-danger m-1" (click)="eliminarProducto()">ELIMINAR</button>
+                    <button class="col-6 btn btn-warning m-1" (click)="abrirModalModificacion()">MODIFICAR</button>
+                </div>
+                <div class="row">
+                    <button *ngIf="producto.publicado" class="col-5 btn btn-secondary m-1" (click)="retirarProducto()">RETIRAR</button>
+                    <button *ngIf="!producto.publicado" class="col-6 btn btn-success m-1" (click)="publicarProducto()">PUBLICAR</button>
+                </div> -->
             </div>
             <div *ngIf="isLoggedUser && !isLoggedAdmin">
                 <div class="col-1"></div>
                 <div class="col-12 btn btn-success" (click)="agregarProducto()">AÑADIR AL CARRO</div>
             </div>
-
         </div>
     </div>
 </div>

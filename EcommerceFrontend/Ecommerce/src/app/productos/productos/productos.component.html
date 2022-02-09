@@ -1,17 +1,17 @@
 <div class="row text-center mt-3">
   <h1>PRODUCTOS</h1>
 </div>
+<div class="row mt-1" style="justify-content: center;">
+  <button *ngIf="isLoggedAdmin" class="btn btn-primary col-6 col-lg-2" data-bs-toggle="modal" data-bs-target="#agregarModal">Añadir producto nuevo</button>
+</div>
 
-<div *ngFor="let producto of productos" style="display:inline-block;" class="col-12 col-lg-3">
+
+<div *ngFor="let producto of productos" style="display:inline-block;" class="col-12 col-md-6 col-xxl-3">
   <app-producto *ngIf="producto.imagenPrincipal[0] !== undefined" [producto]="producto"
     (modificarProductoEvent)="abrirModalModificacion($event)" (eliminarProductoEvent)="eliminarProducto($event)">
   </app-producto>
 </div>
 
-
-<div class="text-center m-4">
-  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarModal">Añadir producto nuevo</button>
-</div>
 
 <!-- Modal Modificar producto-->
 <div class="modal fade" id="modificarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -28,9 +28,14 @@
             <input type="text" name="nombre" [(ngModel)]="producto.nombre" class="col-9">
           </div>
           <div class="m-2 row">
-            <label for="descripcion" class="col-3">Descripción: </label>
+            <label for="descripcion" class="col-3">Descripción corta: </label>
             <textarea type="text" name="descripcion" [(ngModel)]="producto.descripcion" class="col-9"
-              rows="5"></textarea>
+              rows="3"></textarea>
+          </div>
+          <div class="m-2 row">
+            <label for="descripcion" class="col-3">Descripción Larga: </label>
+            <textarea type="text" name="descripcionLarga" [(ngModel)]="producto.descripcionLarga" class="col-9"
+              rows="12"></textarea>
           </div>
           <div class="m-2 row">
             <label for="" class="col-3">Precio: </label>
@@ -38,13 +43,17 @@
           </div>
           <div class="m-2 row">
             <label for="" class="col-3">Seccion: </label>
-            <input type="text" name="seccion" [(ngModel)]="producto.seccion" class="col-9">
+            <select name="seccion" id="">Seccion:
+              <div *ngFor="let seccion of secciones">
+                <option value={{seccion}}>{{seccion.nombre}}</option>
+              </div>
+            </select>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" (click)="modificarProducto()" data-bs-dismiss="modal">Guardar cambios</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+        <button type="button" class="btn btn-warning" (click)="modificarProducto()" data-bs-dismiss="modal">MODIFICAR</button>
       </div>
     </div>
   </div>
@@ -65,18 +74,24 @@
             <input type="text" name="nombre" [(ngModel)]="productoNuevo.nombre" class="col-9">
           </div>
           <div class="m-2 row">
-            <label for="descripcion" class="col-3">Descripción: </label>
+            <label for="descripcion" class="col-3">Descripción corta: </label>
             <textarea type="text" name="descripcion" [(ngModel)]="productoNuevo.descripcion" class="col-9"
-              rows="5"></textarea>
+              rows="3"></textarea>
           </div>
-
+          <div class="m-2 row">
+            <label for="descripcion" class="col-3">Descripción Larga: </label>
+            <textarea type="text" name="descripcionLarga" [(ngModel)]="productoNuevo.descripcionLarga" class="col-9"
+              rows="12"></textarea>
+          </div>
           <div class="m-2 row">
             <label for="" class="col-3">Precio: </label>
             <input type="number" name="precio" [(ngModel)]="productoNuevo.precio" class="col-9">
           </div>
           <div class="m-2 row">
             <label for="" class="col-3">Seccion: </label>
-            <input type="text" name="seccion" [(ngModel)]="productoNuevo.seccion" class="col-9">
+            <select name="seccion" id="" [(ngModel)]="productoNuevo.seccion.id">Seccion:
+                <option *ngFor="let seccion of secciones" value={{seccion.id}}>{{seccion.nombre}}</option>
+            </select>
           </div>
         </form>
 
@@ -89,7 +104,7 @@
               </form>
             </div>
             <div *ngIf="imagenPrincipalASubir.nombre !== ''" class="container-fluid" id="imagenUnica">
-              <app-imagen [imagen]=imagenPrincipalASubir [id]=id (deselectImageEvent)="deseleccionarImagen($event)">
+              <app-imagen [imagen]=imagenPrincipalASubir (deselectImageEvent)="deseleccionarImagen($event)">
               </app-imagen>
             </div>
             <div class="mt-3">
@@ -110,7 +125,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" (click)="agregarProducto()">Crear producto</button>
+        <button type="button" class="btn btn-primary" (click)="agregarProducto()" data-bs-dismiss="modal">Crear producto</button>
       </div>
     </div>
   </div>

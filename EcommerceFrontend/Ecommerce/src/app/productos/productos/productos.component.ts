@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Seccion } from 'src/app/secciones/models/Seccion';
+import { SeccionesService } from 'src/app/secciones/service/secciones.service';
+import { LoginService } from 'src/app/seguridad/service/login.service';
 import { Imagen } from '../models/imagen';
 import { Producto } from '../models/producto';
 import { ImagenesService } from '../service/imagenes.service';
@@ -11,52 +14,106 @@ declare var $: any;
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
+  
+  //Lista de productos en fuincion del rol
   productos: Producto[] = [];
+  //Variable producto para update de ya existentes
   producto: Producto = new Producto();
+  //Variable producto para creacion de nuevos
   productoNuevo: Producto = new Producto();
 
+  //Imagen principal
   imagenPrincipalSubida: Imagen[] = [];
   imagenPrincipalASubir: Imagen = new Imagen();
   archivoPrincipalASubir!: File;
 
+  //Imagenes secundarias
   imagenesSecundariasSubidas: Imagen[] = [];
   imagenesSecundariasASubir: Imagen[] = [];
   archivosSecundariosASubir: File[] = [];
 
+  //Flags de rol de usuario loggeado
+  isLoggedAdmin;
+  isLoggedUser;
+
+  //Secciones
+  secciones: Seccion[];
 
   constructor(
     private productosService: ProductosService, 
-    private imagenesService: ImagenesService) { }
+    private imagenesService: ImagenesService, 
+    private loginService: LoginService,
+    private seccionesService: SeccionesService) { }
 
   ngOnInit() {
-
+    this.obtenerPerfilDeUsuario();
+    this.getSecciones();
     this.getProductos();
+  
   }
 
+  //Obtener el rol del usuario
+  obtenerPerfilDeUsuario(): void {
+
+    this.loginService.getIsLoggedFlagObs().subscribe((flag) => {
+      this.isLoggedUser = flag;
+    });
+    this.loginService.getIsAdminFlagObs().subscribe((flag) => {
+      this.isLoggedAdmin = flag;
+    });
+  }
+
+  //Obtener productos en función del rol
   getProductos(): void {
-    this.productosService.getProductos().subscribe(response => {
-      this.productosService.mapearProductos(response).subscribe(response => {
-        this.productos = response;
-        console.log("PRODUCTOS: ", this.productos)
-        this.productos.forEach(producto => {
-          console.log(Number(producto.id));
-          this.imagenesService.getImagenPrincipal(Number(producto.id)).subscribe(imagenPrincipalArray => {
-            console.log(imagenPrincipalArray)
-            producto.imagenPrincipal = imagenPrincipalArray;
+    //Si es admin obtiene todos los productos
+    if(this.isLoggedAdmin){
+      this.productosService.getProductos().subscribe(productos => {
+          this.productos = productos;
+          this.productos.forEach(producto => {
+            producto.id = this.productosService.getIdProducto(producto);
+            this.seccionesService.getSeccionFromProducto(producto).subscribe(seccion=>{
+              producto.seccion = seccion;
+              producto.seccion.id = this.seccionesService.getIdseccion(seccion);
+            })
+            this.imagenesService.getImagenPrincipal(producto.id).subscribe(imagenPrincipalArray => {
+              console.log(imagenPrincipalArray)
+              producto.imagenPrincipal = imagenPrincipalArray;
+            });
           });
-        });
-      })
+       
+      }), err => {
+        console.log(err)
+      };
+    }
+    //Si no es admin obtiene solo los productos publicados
+    else{
+      this.productosService.getProductosPublicados().subscribe(productos => {
+          this.productos = productos;
+          this.productos.forEach(producto => {
+            producto.id = this.productosService.getIdProducto(producto);
+            this.seccionesService.getSeccionFromProducto(producto).subscribe(seccion=>{
+              producto.seccion = seccion;
+              producto.seccion.id = this.seccionesService.getIdseccion(seccion);
+            })
+            this.imagenesService.getImagenPrincipal(producto.id).subscribe(imagenPrincipalArray => {
+              producto.imagenPrincipal = imagenPrincipalArray;
+            });
+          });
       
-    }), err => {
-      console.log(err)
-    };
+      }), err => {
+        console.log(err)
+      };
+    }
+    
   }
 
+  //Abrir el modal de Update producto
   abrirModalModificacion(producto: Producto): void {
     this.producto = producto;
     $("#modificarModal").modal('show');
   }
 
+  //Update de producto
   modificarProducto(): void {
     this.productosService.patchProducto(this.producto).subscribe(response => {
       this.producto = new Producto();
@@ -64,23 +121,24 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  //Agregar un nuevo producto
   agregarProducto(): void {
     this.productosService.postProducto(this.productoNuevo).subscribe(productoSinMapear => {
       let id = this.productosService.getIdProducto(productoSinMapear);
-      console.log("ID:", id)
-      this.subirImagenPrincipal(Number(id));
-      this.subirImagenesSecundarias(Number(id));
+      this.subirImagenPrincipal(id);
+      this.subirImagenesSecundarias(id);
       this.productoNuevo = new Producto();
       this.ngOnInit();
     })
   }
-
+  //Eliminar de la BBDD un producto, solo será posible si no esta en ningún pedido.
   eliminarProducto(producto: any): void {
     this.productosService.deleteProducto(producto.id).subscribe(response => {
       this.ngOnInit();
     })
   }
 
+  //Seleccionar una imagen del equipo para subir
   seleccionarImagen(e: any): any {
     this.imagenPrincipalASubir = new Imagen
       ();
@@ -93,6 +151,7 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+ //Deseleccionar una imagen a subir
   deseleccionarImagen(imagen: Imagen): void {
     //Eliminamos la imagen y el archivo selecionado
     this.imagenPrincipalASubir = new Imagen();
@@ -100,15 +159,14 @@ export class ProductosComponent implements OnInit {
     $("#file").val('');
   }
 
-  getImagenPrincipal(id: number): void {
+  //Obtener la imagen principal de un producto
+  getImagenPrincipal(id: string): void {
     this.imagenesService.getImagenPrincipal(id).subscribe(response => {
-      console.log("Respuesta principal service", response);
       this.imagenPrincipalSubida = response;
-
     })
   }
-
-  subirImagenPrincipal(id: number): void {
+  //Subir la imagen principal seleccionada
+  subirImagenPrincipal(id: string): void {
     if (this.imagenPrincipalSubida[0]) {
       this.imagenesService.deleteImage(this.imagenPrincipalSubida[0], id);
     }
@@ -120,18 +178,21 @@ export class ProductosComponent implements OnInit {
     this.getImagenPrincipal(id);
   }
 
-  eliminarImagen(imagen: Imagen, id: number): void {
+  //Eliminar una imagen
+  eliminarImagen(imagen: Imagen, id: string): void {
     this.imagenesService.deleteImage(imagen, id);
     this.getImagenPrincipal(id);
     this.getImagenesSecundarias(id);
   }
 
+  //Borrar la seleccion de imagen principal
   restartSeleccionImagen(): void {
     this.imagenPrincipalASubir = new Imagen();
     this.archivoPrincipalASubir = new File([], "");
     $("#file").val('');
   }
 
+  //Seleccion multiple de imagenes del equipo para subir
   seleccionarImagenes(e: any): void {
     this.imagenesSecundariasASubir = [];
     this.archivosSecundariosASubir = [];
@@ -144,6 +205,7 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  //Deseleccionar imagenes para subir
   deseleccionarImagenes(imagen: Imagen): void {
     //Eliminamos la imagen del array de selección de Imagenes
     let arrayCambio: Imagen[] = [];
@@ -165,32 +227,40 @@ export class ProductosComponent implements OnInit {
     $("#files").val('');
   }
 
-  getImagenesSecundarias(id: number): void {
+  //Obtener las imagenes secundarias de un producto
+  getImagenesSecundarias(id: string): void {
     this.imagenesService.getImagenesSecundarias(id).subscribe(response => {
       this.imagenesSecundariasSubidas = [];
-      console.log("Respuesta secundarias service", response)
       this.imagenesSecundariasSubidas = response;
     })
   }
 
-  subirImagenesSecundarias(id: number): void {
+  //Subir las imagenes secundarias seleccionadas
+  subirImagenesSecundarias(id: string): void {
     this.archivosSecundariosASubir.forEach(element => {
       this.imagenesService.subirImagen(element, id, "secundaria");
     })
     this.imagenesService.getImagenesSecundarias(id).subscribe(response => {
       this.imagenesSecundariasSubidas = response;
-      console.log("Respuesta secundarias service:", response)
     })
     this.restartSeleccionImagenes();
 
     setTimeout(() => { this.getImagenesSecundarias(id); }, 4000)
 
   }
-
+  //Vaciar los array de seleccion de imagenes.
   restartSeleccionImagenes(): void {
     this.imagenesSecundariasASubir = [];
     this.archivosSecundariosASubir = [];
     $("#files").val('');
   }
-
+  //Obtener las secciones cargadas
+  getSecciones(): void {
+    this.seccionesService.getSecciones().subscribe(secciones=>{
+      this.secciones = secciones;
+      this.secciones.forEach(seccion => {
+        seccion.id = this.seccionesService.getIdseccion(seccion);
+      });
+    })
+  }
 }

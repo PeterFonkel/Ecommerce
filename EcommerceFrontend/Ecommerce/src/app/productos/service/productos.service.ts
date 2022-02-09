@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../models/producto';
 import { ImagenesService } from './imagenes.service';
@@ -18,8 +19,16 @@ export class ProductosService {
 
   constructor(private http: HttpClient, private imagenesService: ImagenesService) { }
 
-  getProductos(): Observable<any[]> {
-    return this.http.get<any[]>(this.endpoint + "/productos", cabecera)
+  getProducto(id: string): Observable<Producto>{
+    return this.http.get<any>(this.endpoint + "/productos/" + id)
+  }
+
+  getProductos(): Observable<Producto[]> {
+    return this.http.get<any>(this.endpoint + "/productos", cabecera).pipe(map(response=>response._embedded.productos));
+  }
+
+  getProductosPublicados(): Observable<Producto[]> {
+    return this.http.get<any>(this.endpoint + "/productos/search/getProductosPublicados", cabecera).pipe(map(response=>response._embedded.productos));
   }
 
   getProductoUrl(url: string): Observable<any> {
@@ -30,15 +39,6 @@ export class ProductosService {
     return this.getProductoUrl(productoEnCarro._links.producto.href);
   }
 
-  mapearProductos(responseApi: any): Observable<Producto[]> {
-    let productos: Producto[] = [];
-    productos = responseApi._embedded.productos;
-    productos.forEach(element => {
-      element.id = this.getIdProducto(element)
-    });
-    return of(productos);
-  }
-  
   getIdProducto(p: any): string {
     let url = p._links.self.href;
     let trozos = url.split("/");
@@ -46,17 +46,17 @@ export class ProductosService {
   }
 
   postProducto(producto: Producto): Observable<Producto> {
-    return this.http.post<Producto>(this.endpoint + "/productos", producto, cabecera);
+    return this.http.post<Producto>(this.endpoint + "/productos/search/productos", producto, cabecera);
   }
 
   deleteProducto(id: string): Observable<any> {
     console.log(id);
-    this.imagenesService.deleteNode(Number(id));
+    this.imagenesService.deleteNode(id);
     return this.http.delete(this.endpoint + "/productos/" + id, cabecera);
   }
 
   patchProducto(producto: Producto): Observable<any> {
-    return this.http.patch(this.endpoint + "/productos/" + producto.id, producto, cabecera)
+    return this.http.patch(this.endpoint + "/productos/search/productos/" + producto.id, producto, cabecera)
   }
 
   getProductoFronProductoSeleccionado(productoSeleccionado: any):Observable<any> {
