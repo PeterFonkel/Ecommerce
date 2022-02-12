@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Producto } from 'src/app/productos/models/producto';
 import { ProductoCarro } from 'src/app/productos/models/ProductoCarro';
 import { environment } from 'src/environments/environment';
 import { Usuario } from '../models/Usuario';

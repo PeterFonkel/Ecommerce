@@ -46,6 +46,7 @@ export class ProductoFichaComponent implements OnInit {
     this.obtenerPerfilDeUsuario();
     this.getId();
     this.getProducto();
+    this.getSecciones();
   }
 
   //Obtener el id del producto de la url
@@ -73,17 +74,20 @@ export class ProductoFichaComponent implements OnInit {
         this.producto.seccion = seccion;
         this.producto.seccion.id = this.seccionesService.getIdseccion(seccion);
       })
+
       this.imagenesService.getImagenPrincipal(this.id).subscribe(imagenPrincipalArray => {
         this.producto.imagenPrincipal = imagenPrincipalArray;
-        this.imagenPrincipalASubir = imagenPrincipalArray[0];
       })
 
       this.imagenesService.getImagenesSecundarias(this.id).subscribe(imagenesSecundariasArray => {
         this.producto.imagenesSecundarias = imagenesSecundariasArray;
         this.producto.id = this.id;
-        this.imagenesSecundariasASubir = imagenesSecundariasArray;
       })
     })
+  }
+
+  //Obtener las secciones disponibles
+  getSecciones(): void {
     this.seccionesService.getSecciones().subscribe(secciones => {
       this.secciones = secciones;
       this.secciones.forEach(seccion => {
@@ -143,6 +147,7 @@ export class ProductoFichaComponent implements OnInit {
       this.imagenesSecundariasASubir.push(imagen);
       this.archivosSecundariosASubir.push(e.target.files[index]);
     }
+    console.log(this.imagenesSecundariasASubir)
   }
 
   //Subir las imagenes secundarias seleccionadas
@@ -152,9 +157,10 @@ export class ProductoFichaComponent implements OnInit {
         this.archivosSecundariosASubir.forEach(element => {
           setTimeout(() => {
             this.imagenesService.subirImagen(element, id, "secundaria");
-          }, 800)
+          }, 900)
         })
       })
+      this.imagenesSecundariasASubir = [];
     }
   }
 

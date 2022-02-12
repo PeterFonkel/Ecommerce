@@ -10,6 +10,7 @@ export class Pedido {
     carro: ProductoCarro[] = [];
     precioTotal: number;
     usuario: UsuarioImpl;
+    direccionEntrega: string;
 
     constructor(){
 

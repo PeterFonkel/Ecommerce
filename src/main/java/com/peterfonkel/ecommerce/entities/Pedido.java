@@ -30,6 +30,7 @@ public class Pedido {
 	private Instant fechaPedido;
 	private Instant fechaEntrega;
 	private Instant fechaEnvio;
+	private String direccionEntrega;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido_id")
@@ -96,6 +97,15 @@ public class Pedido {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+
+	public String getDireccionEntrega() {
+		return direccionEntrega;
+	}
+
+	public void setDireccionEntrega(String direccionEntrega) {
+		this.direccionEntrega = direccionEntrega;
 	}
 
 	@Override

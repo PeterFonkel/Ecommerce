@@ -1,5 +1,7 @@
 package com.peterfonkel.ecommerce.rest;
 
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,54 @@ public class ControllerDeProductos {
 	public CollectionModel<PersistentEntityResource> getProductos(PersistentEntityResourceAssembler assembler) {
 		List<?> listadoProductos = productoDAO.findAll();
 		return assembler.toCollectionModel(listadoProductos);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+	@PostMapping(path = "getProductosPublicadosFiltrados")
+	@ResponseBody
+	public CollectionModel<PersistentEntityResource> getProductosPublicadosFiltrados(@RequestBody String[] keywords,  PersistentEntityResourceAssembler assembler) {
+		List<Producto> listadoProductos = productoDAO.findAll();
+		List<Producto>productosFiltrados = new ArrayList<Producto>();
+		if (keywords.length>0) {
+			for (Producto producto : listadoProductos) {
+				for (String keyword : keywords) {
+					if((producto.getDescripcion().toLowerCase().contains(keyword.toLowerCase()) && producto.getPublicado())  || producto.getNombre().toUpperCase().contains(keyword.toUpperCase())) {
+						productosFiltrados.add(producto);
+						System.out.println(producto);
+						break;
+					}
+				}
+			}
+		}else {
+			for (Producto producto : listadoProductos) {
+				if (producto.getPublicado()) {
+					productosFiltrados.add(producto);
+				}
+			}
+		}
+		return assembler.toCollectionModel(productosFiltrados);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+	@PostMapping(path = "getProductosFiltrados")
+	@ResponseBody
+	public CollectionModel<PersistentEntityResource> getProductosFiltrados(@RequestBody String[] keywords,  PersistentEntityResourceAssembler assembler) {
+		List<Producto> listadoProductos = productoDAO.findAll();
+		List<Producto> productosFiltrados = new ArrayList<Producto>();
+		if (keywords.length>0) {
+			for (Producto producto : listadoProductos) {
+				for (String keyword : keywords) {
+					if(producto.getDescripcion().toUpperCase().contains(keyword.toUpperCase()) || producto.getNombre().toUpperCase().contains(keyword.toUpperCase()) ) {
+						productosFiltrados.add(producto);
+						System.out.println(producto);
+						break;
+					}
+				}
+			}
+		}else {
+			productosFiltrados = listadoProductos;
+		}
+		return assembler.toCollectionModel(productosFiltrados);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

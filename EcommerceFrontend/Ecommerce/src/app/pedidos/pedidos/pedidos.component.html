@@ -1,29 +1,35 @@
-<div  class="row text-center mt-3">
-    <h1>TUS PEDIDOS</h1>
+<div *ngIf="isLoggedAdmin" class="row m-4">
+    <div class="row">
+        <h3 class="text-center">Gestion de pedidos</h3>
+        <p class="text-center">En esta sección pueden gestionarse los pedidos de la aplicación.</p>
+    </div>
 </div>
-<div class="row">
-    <div class="col-2"></div>
-    <div class="col-2">
-        <button class="btn btn-primary"  (click)="filtrar('no_enviados')">Pendientes enviar</button>
-    </div>
-    <div class="col-2">
-        <button class="btn btn-primary" (click)="filtrar('enviados')">Enviados</button>
-    </div>
-    <div class="col-2">
-        <button class="btn btn-primary" (click)="filtrar('entregados')">Entregados</button>
-    </div>
-    <div class="col-2">
-        <button class="btn btn-primary" (click)="getPedidos()">Todos</button>
-    </div>
-    
+
+<div *ngIf="isLoggedUser && !isLoggedAdmin" class="row m-4">
+    <h3 class="text-center">Pedidos realizados</h3>
+    <p class="text-center">En esta sección pueden consultarse los pedidos realizados por el usuario.</p>
 </div>
+
+<h5 class="text-center">
+    <select name="filtrar" id="">
+        <option value="" (click)="filtrar('no_enviados')">Pendientes de enviar</option>
+        <option value="" (click)="filtrar('no_entregados')">Enviados y pendientes de entregar</option>
+        <option value="" (click)="filtrar('enviados')">Enviados</option>
+        <option value="" (click)="filtrar('entregados')">Entregados</option>
+        <option value="" (click)="getPedidos()" selected>Todos</option>
+    </select>
+</h5>
+
+<hr>
+
 <div class="row mx-4 my-2 p-2">
-    <div class="col-1"></div>
-    <div class="col-1"><b>Nº PEDIDO</b></div>
-    <div class="col-2"><b>FECHA PEDIDO</b></div>
-    <div class="col-2"><b>FECHA ENVIO</b></div>
-    <div class="col-1"><b>PRECIO</b></div>
-    <div class="col-2"><b>FECHA RECIBIDO</b></div>
+    <div class="col-2 col-lg-1"><b>Nº PED.</b></div>
+    <div class="d-none d-lg-block col-lg-1"><b>FECHA PEDIDO</b></div>
+    <div class="d-none d-lg-block col-lg-1"><b>FECHA ENVIO</b></div>
+    <div class="d-none d-lg-block col-lg-1"><b>FECHA RECIBIDO</b></div>
+    <div class="col-3 col-lg-1"><b>PRECIO</b></div>
+    <div class="col-7 col-lg-4"><b>PRODUCTOS</b></div>
+
 </div>
 <div *ngFor="let pedido of pedidos">
     <app-pedido [pedido]="pedido" (refreshEvent)="ngOnInit()"></app-pedido>

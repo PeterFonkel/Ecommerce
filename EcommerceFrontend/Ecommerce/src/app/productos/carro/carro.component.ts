@@ -4,6 +4,7 @@ import { UsuariosService } from 'src/app/seguridad/service/usuarios.service';
 import { ProductoCarro } from '../models/ProductoCarro';
 import { ProductosService } from '../service/productos.service';
 import Swal from "sweetalert2";
+import { Pedido } from 'src/app/pedidos/models/Pedido';
 
 @Component({
   selector: 'app-carro',
@@ -12,6 +13,7 @@ import Swal from "sweetalert2";
 })
 export class CarroComponent implements OnInit {
   carro: ProductoCarro[] = [];
+  direccionEntrega: string;
   @Input() id: string = sessionStorage.getItem("ID");
   precioTotal: number = 0;
 
@@ -64,7 +66,7 @@ export class CarroComponent implements OnInit {
       denyButtonText: `No`
     }).then((result) => {
       if (result.isConfirmed) {
-        this.pedidosService.postPedido(this.carro).subscribe(response=>{
+        this.pedidosService.postPedido(this.carro, this.direccionEntrega).subscribe(response=>{
           Swal.fire('El pedido se ha realizado', '', 'success')
           this.carro = [];
           this.precioTotal = 0;

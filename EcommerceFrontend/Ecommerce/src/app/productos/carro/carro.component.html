@@ -1,5 +1,6 @@
-<div class="row text-center">
-    <h1>CARRO DE LA COMPRA</h1>
+<div class="row m-4">
+    <h3 class="text-center">Carro de la compra</h3>
+    <p class="text-center">En esta sección puede consultarse el carro dela compra del usuario.</p>
 </div>
 <div class="row m-4 p-2">
     <div class="col-1"></div>
@@ -15,6 +16,31 @@
 
 <div class="text-center">
     <p><b>PRECIO TOTAL: {{precioTotal}} EUROS</b></p>
-    <button class="btn btn-primary" (click)="realizarPedido()">Realizar pedido</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#direccionModal">Realizar pedido</button>
 </div>
+
+<!-- Modal Agregar producto-->
+<div class="modal fade" id="direccionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Direccion de entrega</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" class="">
+            <div class="m-2 row">
+              <label for="nombre" class="col-3">Direccion: </label>
+              <input type="text" name="nombre" [(ngModel)]="direccionEntrega" class="col-9">
+            </div>
+          </form>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="realizarPedido()" data-bs-dismiss="modal">Crear producto</button>
+        </div>
+      </div>
+    </div>
+  </div>
 

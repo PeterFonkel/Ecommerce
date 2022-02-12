@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Seccion } from 'src/app/secciones/models/Seccion';
 import { SeccionesService } from 'src/app/secciones/service/secciones.service';
 import { LoginService } from 'src/app/seguridad/service/login.service';
@@ -6,6 +7,7 @@ import { Imagen } from '../models/imagen';
 import { Producto } from '../models/producto';
 import { ImagenesService } from '../service/imagenes.service';
 import { ProductosService } from '../service/productos.service';
+import Swal from "sweetalert2";
 declare var $: any;
 
 @Component({
@@ -14,7 +16,7 @@ declare var $: any;
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
-  
+
   //Lista de productos en fuincion del rol
   productos: Producto[] = [];
   //Variable producto para update de ya existentes
@@ -39,9 +41,14 @@ export class ProductosComponent implements OnInit {
   //Secciones
   secciones: Seccion[];
 
+  //Buscador
+  keywords: string[] = [];
+  palabras: string;
+
+
   constructor(
-    private productosService: ProductosService, 
-    private imagenesService: ImagenesService, 
+    private productosService: ProductosService,
+    private imagenesService: ImagenesService,
     private loginService: LoginService,
     private seccionesService: SeccionesService) { }
 
@@ -49,7 +56,7 @@ export class ProductosComponent implements OnInit {
     this.obtenerPerfilDeUsuario();
     this.getSecciones();
     this.getProductos();
-  
+
   }
 
   //Obtener el rol del usuario
@@ -64,47 +71,46 @@ export class ProductosComponent implements OnInit {
   }
 
   //Obtener productos en función del rol
-  getProductos(): void {
+  getProductos(): Observable<void> {
+    this.productos = [];
     //Si es admin obtiene todos los productos
-    if(this.isLoggedAdmin){
-      this.productosService.getProductos().subscribe(productos => {
-          this.productos = productos;
-          this.productos.forEach(producto => {
-            producto.id = this.productosService.getIdProducto(producto);
-            this.seccionesService.getSeccionFromProducto(producto).subscribe(seccion=>{
-              producto.seccion = seccion;
-              producto.seccion.id = this.seccionesService.getIdseccion(seccion);
-            })
-            this.imagenesService.getImagenPrincipal(producto.id).subscribe(imagenPrincipalArray => {
-              console.log(imagenPrincipalArray)
-              producto.imagenPrincipal = imagenPrincipalArray;
-            });
+    if (this.isLoggedAdmin) {
+      this.productosService.getProductosFiltrados(this.keywords).subscribe(productos => {
+        this.productos = productos;
+        this.productos.forEach(producto => {
+          producto.id = this.productosService.getIdProducto(producto);
+          this.seccionesService.getSeccionFromProducto(producto).subscribe(seccion => {
+            producto.seccion = seccion;
+            producto.seccion.id = this.seccionesService.getIdseccion(seccion);
+          })
+          this.imagenesService.getImagenPrincipal(producto.id).subscribe(imagenPrincipalArray => {
+            producto.imagenPrincipal = imagenPrincipalArray;
           });
-       
+        });
       }), err => {
         console.log(err)
       };
+      return;
     }
     //Si no es admin obtiene solo los productos publicados
-    else{
-      this.productosService.getProductosPublicados().subscribe(productos => {
-          this.productos = productos;
-          this.productos.forEach(producto => {
-            producto.id = this.productosService.getIdProducto(producto);
-            this.seccionesService.getSeccionFromProducto(producto).subscribe(seccion=>{
-              producto.seccion = seccion;
-              producto.seccion.id = this.seccionesService.getIdseccion(seccion);
-            })
-            this.imagenesService.getImagenPrincipal(producto.id).subscribe(imagenPrincipalArray => {
-              producto.imagenPrincipal = imagenPrincipalArray;
-            });
+    else {
+      this.productosService.getProductosPublicadosFiltrados(this.keywords).subscribe(productos => {
+        this.productos = productos;
+        this.productos.forEach(producto => {
+          producto.id = this.productosService.getIdProducto(producto);
+          this.seccionesService.getSeccionFromProducto(producto).subscribe(seccion => {
+            producto.seccion = seccion;
+            producto.seccion.id = this.seccionesService.getIdseccion(seccion);
+          })
+          this.imagenesService.getImagenPrincipal(producto.id).subscribe(imagenPrincipalArray => {
+            producto.imagenPrincipal = imagenPrincipalArray;
           });
-      
+        });
+
       }), err => {
         console.log(err)
       };
     }
-    
   }
 
   //Abrir el modal de Update producto
@@ -151,7 +157,7 @@ export class ProductosComponent implements OnInit {
     }
   }
 
- //Deseleccionar una imagen a subir
+  //Deseleccionar una imagen a subir
   deseleccionarImagen(imagen: Imagen): void {
     //Eliminamos la imagen y el archivo selecionado
     this.imagenPrincipalASubir = new Imagen();
@@ -256,11 +262,17 @@ export class ProductosComponent implements OnInit {
   }
   //Obtener las secciones cargadas
   getSecciones(): void {
-    this.seccionesService.getSecciones().subscribe(secciones=>{
+    this.seccionesService.getSecciones().subscribe(secciones => {
       this.secciones = secciones;
       this.secciones.forEach(seccion => {
         seccion.id = this.seccionesService.getIdseccion(seccion);
       });
     })
   }
+
+  filtrar(): void {
+    this.keywords = this.palabras.split(" ");
+    this.getProductos();
+  }
+
 }

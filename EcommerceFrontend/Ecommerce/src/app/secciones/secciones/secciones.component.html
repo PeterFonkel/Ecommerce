@@ -1,3 +1,7 @@
+<div class="row m-4">
+  <h3 class="text-center">Gestión de secciones</h3>
+  <p class="text-center">En esta sección pueden agregarse, modificar o eliminar secciones de la aplicación.</p>
+</div>
 <div *ngFor="let seccion of secciones">
   <app-seccion [seccion]="seccion" (eliminarSeccion)="eliminarSeccion($event)" (modificarSeccion)="abrirModalModificacion($event)"></app-seccion>
 </div>

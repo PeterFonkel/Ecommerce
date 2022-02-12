@@ -1,10 +1,22 @@
-<div class="row text-center mt-3">
-  <h1>PRODUCTOS</h1>
+<div *ngIf="isLoggedAdmin" class="row mt-4">
+  <h3 class="text-center">Gestión de productos</h3>
+  <p class="text-center">En esta sección pueden gestionarse los productos de la aplicación.</p>
 </div>
-<div class="row mt-1" style="justify-content: center;">
+<div *ngIf="isLoggedUser && !isLoggedAdmin" class="row mt-4">
+  <h3 class="text-center">Productos disponibles en tienda</h3>
+  <p class="text-center">En esta sección pueden consultarse los productos disponibles y añadirlos al carro de la compra. Click en el producto paraver su ficha completa.</p>
+</div>
+
+<div class="row" style="justify-content: center;">
   <button *ngIf="isLoggedAdmin" class="btn btn-primary col-6 col-lg-2" data-bs-toggle="modal" data-bs-target="#agregarModal">Añadir producto nuevo</button>
 </div>
 
+<div class="text-center my-2">
+  <form action="">
+    <input class="mx-2" type="text" name="palabras" [(ngModel)]="palabras">
+    <button class="btn btn-success" (click)="filtrar()">BUSCAR</button>
+  </form>
+</div>
 
 <div *ngFor="let producto of productos" style="display:inline-block;" class="col-12 col-md-6 col-xxl-3">
   <app-producto *ngIf="producto.imagenPrincipal[0] !== undefined" [producto]="producto"

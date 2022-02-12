@@ -1,0 +1,20 @@
+<div class="m-4">
+    <p><b>NUMERO DE PEDIDO: </b>{{id}}</p>
+    <p *ngIf="pedido.usuario"><b>CLIENTE: </b>{{pedido.usuario.nombre}}</p>
+    <p *ngIf="pedido.fechaPedido"><b>FECHA DE PEDIDO: </b>{{fechaPedido}}</p>
+    <p *ngIf="pedido.fechaEnvio"><b>FECHA DE ENVIO: </b>{{fechaEnvio}}</p>
+    <p *ngIf="pedido.fechaEntrega"><b>FECHA DE ENTREGA: </b>{{fechaEntrega}}</p>
+    <p *ngIf="pedido.direccionEntrega"><b>DIRECCION DE ENTREGA: </b>{{pedido.direccionEntrega}}</p>
+    <hr>
+    <div class="row my-2">
+        <div class="col-3"><b>PRODUCTO</b></div>
+        <div class="col-2"><b>CANTIDAD</b></div>
+    </div>
+
+    <div class="row" *ngFor="let productoCarro of pedido.carro">
+        <p class="col-3">- {{productoCarro.producto.nombre}}</p>
+        <p class="col-2">{{productoCarro.cantidad}}</p>
+    </div>
+</div>
+
+

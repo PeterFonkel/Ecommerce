@@ -1,71 +1,73 @@
-<div class="row">
-  <h3 class="text-center">Gestión de usuarios</h3>
-  <p class="text-center">En esta sección pueden agregarse o eliminar usuarios de la aplicación.</p>
-</div>
-<div class="row mt-2">
-  <div class="col-5"><b>USUARIO</b></div>
-  <div class="col-3"><b>ROL</b></div>
-</div>
-<div *ngFor="let usuario of usuarios">
+<div class="m-4">
   <div class="row">
-    <app-usuario [usuario]="usuario"></app-usuario>
+    <h3 class="text-center">Gestión de usuarios</h3>
+    <p class="text-center">En esta sección pueden agregarse o eliminar usuarios de la aplicación.</p>
   </div>
-</div>
-<div class="text-center">
-  <button class="btn btn-primary mx-2 my-1" href="#" data-bs-toggle="modal" data-bs-target="#modalRegistrase">Añadir
-    usuario nuevo</button>
-
-</div>
-
-<!-- Modal Registro -->
-<div class="modal fade" id="modalRegistrase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <form action="" id="registrarse">
-          <fieldset class="my-2">
-            <label for="">nombre</label>
-            <input type="text" class="mx-2" id="nombre-registro" name="nombre" [(ngModel)]="usuario.nombre">
-            <br>
-          </fieldset>
-          <fieldset class="my-2">
-            <label for="">telefono</label>
-            <input type="text" class="mx-2" id="telefono-registro" name="teleono" [(ngModel)]="usuario.telefono">
-            <br>
-          </fieldset>
-          <fieldset class="my-2">
-            <label for="">email</label>
-            <input type="email" class="mx-2" id="email-registro" name="email" [(ngModel)]="usuario.email">
-            <br>
-          </fieldset>
-
-          <fieldset class="my-2">
-            <label for="">Password</label>
-            <input type="password" class="mx-2" id="password-registro" name="password1" [(ngModel)]="password1">
-            <br>
-          </fieldset>
-
-          <fieldset class="my-2">
-            <label for="">Repite el password</label>
-            <input type="password" class="mx-2" id="password-registro2" name="password2" [(ngModel)]="password2">
-          </fieldset>
-
-          <fieldset class="my-2">
-            <label for="">Selecciona un rol</label>
-            <select name="roles" [(ngModel)]="usuario.roles[0].rolNombre" class="custom-select col" id="rol-registro">
-              <option *ngFor="let rol of roles" [value]="rol[1]">
-                {{ rol[1] }}
-              </option>
-            </select>
-          </fieldset>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary mx-2" data-bs-dismiss="modal" (click)="nuevoUsuario()">Continuar</button>
-        </form>
+  <div class="row mt-2">
+    <div class="col-5"><b>USUARIO</b></div>
+    <div class="col-3"><b>ROL</b></div>
+  </div>
+  <div *ngFor="let usuario of usuarios">
+    <div class="row">
+      <app-usuario [usuario]="usuario"></app-usuario>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary mx-2 my-1" href="#" data-bs-toggle="modal" data-bs-target="#modalRegistrase">Añadir
+      usuario nuevo</button>
+  
+  </div>
+  
+  <!-- Modal Registro -->
+  <div class="modal fade" id="modalRegistrase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+  
+          <form action="" id="registrarse">
+            <fieldset class="my-2">
+              <label for="">nombre</label>
+              <input type="text" class="mx-2" id="nombre-registro" name="nombre" [(ngModel)]="usuario.nombre">
+              <br>
+            </fieldset>
+            <fieldset class="my-2">
+              <label for="">telefono</label>
+              <input type="text" class="mx-2" id="telefono-registro" name="teleono" [(ngModel)]="usuario.telefono">
+              <br>
+            </fieldset>
+            <fieldset class="my-2">
+              <label for="">email</label>
+              <input type="email" class="mx-2" id="email-registro" name="email" [(ngModel)]="usuario.email">
+              <br>
+            </fieldset>
+  
+            <fieldset class="my-2">
+              <label for="">Password</label>
+              <input type="password" class="mx-2" id="password-registro" name="password1" [(ngModel)]="password1">
+              <br>
+            </fieldset>
+  
+            <fieldset class="my-2">
+              <label for="">Repite el password</label>
+              <input type="password" class="mx-2" id="password-registro2" name="password2" [(ngModel)]="password2">
+            </fieldset>
+  
+            <fieldset class="my-2">
+              <label for="">Selecciona un rol</label>
+              <select name="roles" [(ngModel)]="usuario.roles[0].rolNombre" class="custom-select col" id="rol-registro">
+                <option *ngFor="let rol of roles" [value]="rol[1]">
+                  {{ rol[1] }}
+                </option>
+              </select>
+            </fieldset>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary mx-2" data-bs-dismiss="modal" (click)="nuevoUsuario()">Continuar</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

@@ -1,14 +1,52 @@
 <div class="row mx-4 my-2 p-2" style="background: rgb(252, 249, 249); box-shadow: 2px 2px 10px #666; border-radius: 5px;">
-    <div class="col-1"></div>
-    <div class="col-1">{{pedido.id}}</div>
-    <div class="col-2">{{fechaPedido}}</div>
-    <div *ngIf="pedido.fechaEnvio; else noEnviado" class="col-2">{{fechaEnvio}}</div>
-    <ng-template #noEnviado><div class="col-2">Pendiente</div></ng-template>
-    <div class="col-1">{{pedido.precioTotal}}</div>
-    <div *ngIf="pedido.fechaEntrega; else noRecibido"class="col-2">{{fechaEntrega}}</div>
-    <ng-template #noRecibido><div class="col-2">Pendiente</div></ng-template>
-    <div *ngIf="isLoggedAdmin" class="col-1"><button class="btn btn-primary" (click)="eliminarPedido()">ELIMINAR</button></div>
-    <div *ngIf="isLoggedAdmin" class="col-1"><button class="btn btn-primary" (click)="enviarPedido()">ENVIAR</button></div>
-    <div *ngIf="isLoggedAdmin" class="col-1"><button class="btn btn-primary" (click)="entregarPedido()">ENTREGAR</button></div>
-    <div class="col-1"><button class="btn btn-primary">VER PEDIDO</button></div>
+
+    <!-- Id del pedido -->
+    <div class="col-2 col-lg-1"  (click)="verPedido()">{{pedido.id}}</div>
+
+    <!-- Fecha de realizacion del pedido, si es null mostrar pendiente -->
+    <div class="d-none d-lg-block col-lg-1"  (click)="verPedido()">{{fechaPedido}}</div>
+    
+    <!-- Fecha de envio del pedido, si es null mostrar pendiente -->
+    <div *ngIf="pedido.fechaEnvio; else noEnviado" class="d-none d-lg-block col-lg-1" (click)="verPedido()">{{fechaEnvio}}</div>
+    <ng-template #noEnviado><div class="d-none d-lg-block col-lg-1" (click)="verPedido()">Pendiente</div></ng-template>
+    
+    <!-- Fecha de entrega del pedido, si es null mostrar pendiente -->
+    <div *ngIf="pedido.fechaEntrega; else noRecibido"class="d-none d-lg-block col-lg-1" (click)="verPedido()">{{fechaEntrega}}</div>
+    <ng-template #noRecibido><div class="d-none d-lg-block col-lg-1" (click)="verPedido()">Pendiente</div></ng-template>
+
+    <!-- Precio total del pedido -->
+    <div class="col-3 col-lg-1"  (click)="verPedido()">{{pedido.precioTotal}}</div>
+
+    <!-- Listado de productos del pedido -->
+    <div class="col-7 col-lg-4" (click)="verPedido()" style="border-style:dotted; border-width: 1px;">
+        <div *ngFor="let productoCarro of pedido.carro" class="p-1">
+            <div *ngIf="productoCarro.producto">
+                - {{productoCarro.producto.nombre}} ({{productoCarro.cantidad}})</div>
+            </div>
+            
+    </div>
+
+    
+    
+    <!-- Botones para pantallas grandes -->
+    <div class="d-none d-lg-block col-2">
+        <div *ngIf="isLoggedAdmin" class="row m-1"><button class="btn btn-danger" (click)="eliminarPedido()">ELIMINAR</button></div>
+        <div *ngIf="isLoggedAdmin && !pedido.fechaEnvio" class="row m-1"><button class="btn btn-primary" (click)="enviarPedido()">ENVIAR</button></div>
+        <div *ngIf="isLoggedAdmin && !pedido.fechaEntrega" class="row m-1"><button class="btn btn-success" (click)="entregarPedido()">ENTREGAR</button></div>
+    </div>
+
+    <h6><b>ESTADO DEL PEDIDO: </b>
+        <h6 *ngIf="!pedido.fechaEnvio" style="display: inline;">PENDIENTE DE ENVIAR </h6>
+        <h6 *ngIf="pedido.fechaEnvio && !pedido.fechaEntrega"  style="display: inline;">ENVIADO</h6>
+        <h6 *ngIf="pedido.fechaEntrega"  style="display: inline;">ENTREGADO</h6>
+    </h6>
+    <!-- Botones para pantallas pequeñas -->
+    <div class="d-lg-none mt-3">
+        <hr>
+        <div class="row">
+            <div *ngIf="isLoggedAdmin" class="col-4"><button class="btn btn-danger btn-sm" (click)="eliminarPedido()">ELIMINAR</button></div>
+            <div *ngIf="isLoggedAdmin && !pedido.fechaEnvio" class="col-4"><button class="btn btn-primary btn-sm" (click)="enviarPedido()">ENVIAR</button></div>
+            <div *ngIf="isLoggedAdmin  && !pedido.fechaEntrega" class="col-4"><button class="btn btn-success btn-sm" (click)="entregarPedido()">ENTREGAR</button></div>
+        </div>
+    </div>
 </div>

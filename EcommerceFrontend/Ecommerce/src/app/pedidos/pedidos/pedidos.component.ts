@@ -17,9 +17,9 @@ export class PedidosComponent implements OnInit {
   isLoggedAdmin;
 
   constructor(
-    private pedidosService: PedidosService, 
-    private productosService: ProductosService, 
-    private loginService: LoginService, 
+    private pedidosService: PedidosService,
+    private productosService: ProductosService,
+    private loginService: LoginService,
     private usuariosService: UsuariosService) { }
 
   ngOnInit() {
@@ -40,16 +40,16 @@ export class PedidosComponent implements OnInit {
   getPedidos(): void {
     if (this.isLoggedUser && !this.isLoggedAdmin) {
       this.pedidosService.getPedidos().subscribe(pedidos => {
-        this.pedidos = pedidos,
+        this.pedidos = pedidos;
         this.pedidos.forEach(pedido => {
           pedido.id = this.pedidosService.getIdPedido(pedido);
           pedido.precioTotal = 0;
           this.pedidosService.getPedidoFromPedidosApi(pedido).subscribe(pedidoApi => {
-            this.pedidosService.getUsuarioFromPedido(pedido).subscribe(usuarioApi=>{
+            this.pedidosService.getUsuarioFromPedido(pedido).subscribe(usuarioApi => {
               pedido.usuario = usuarioApi;
             })
-            this.pedidosService.getCarroFromPedidoApi(pedidoApi).subscribe(carroApi => {
-              pedido.carro = this.pedidosService.mapearCarro(carroApi);
+            this.pedidosService.getCarroFromPedidoApi(pedidoApi).subscribe(carro => {
+              pedido.carro = carro;
               pedido.carro.forEach(productoCarroApi => {
                 productoCarroApi.id = this.productosService.getIdProducto(productoCarroApi);
                 this.productosService.getProductoFromProductoCarro(productoCarroApi).subscribe(productoApi => {
@@ -59,8 +59,6 @@ export class PedidosComponent implements OnInit {
                 })
               });
             });
-
-            
           })
         });
       })
@@ -69,22 +67,16 @@ export class PedidosComponent implements OnInit {
       this.pedidosService.getAllPedidos().subscribe(pedidos => {
         this.pedidos = pedidos;
         this.pedidos.forEach(pedido => {
-          
           pedido.id = this.pedidosService.getIdPedido(pedido);
           pedido.precioTotal = 0;
-          console.log("PEDIDO: ", pedido)
           this.pedidosService.getPedidoFromPedidosApi(pedido).subscribe(pedidoApi => {
-            console.log("PEDIDOAPI: ", pedidoApi)
-            this.pedidosService.getUsuarioFromPedido(pedido).subscribe(usuarioApi=>{  
+            this.pedidosService.getUsuarioFromPedido(pedido).subscribe(usuarioApi => {
               pedido.usuario = usuarioApi
               pedido.usuario.id = this.usuariosService.getIdFromUsuarioApi(usuarioApi);
-    
-              console.log("PEDIDO MAPEADO: ", pedido)
             })
 
-            this.pedidosService.getCarroFromPedidoApi(pedidoApi).subscribe(carroApi => {
-              pedido.carro = this.pedidosService.mapearCarro(carroApi);
-              console.log(pedidoApi)
+            this.pedidosService.getCarroFromPedidoApi(pedidoApi).subscribe(carro => {
+              pedido.carro = carro;
               pedido.carro.forEach(productoCarroApi => {
                 productoCarroApi.id = this.productosService.getIdProducto(productoCarroApi);
                 this.productosService.getProductoFromProductoCarro(productoCarroApi).subscribe(productoApi => {
@@ -130,10 +122,19 @@ export class PedidosComponent implements OnInit {
             pedidosFiltrado.push(pedido);
           }
         });
-        console.log(pedidosFiltrado);
         this.pedidos = [];
         this.pedidos = pedidosFiltrado;
       }
-    }, 500)
+
+      if (filtro == "no_entregados") {
+        this.pedidos.forEach(pedido => {
+          if (pedido.fechaEntrega == null && pedido.fechaEnvio !== null) {
+            pedidosFiltrado.push(pedido);
+          }
+        });
+        this.pedidos = [];
+        this.pedidos = pedidosFiltrado;
+      }
+    }, 400)
   }
 }
