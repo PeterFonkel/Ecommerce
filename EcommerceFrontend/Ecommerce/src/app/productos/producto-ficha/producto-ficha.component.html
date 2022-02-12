@@ -1,18 +1,45 @@
 <h4 class="titulo text-center mt-4"><b>{{producto.nombre}}</b></h4>
-<div class="row m-4 imagenes">
-    <div class="col-6 text-center" *ngIf="producto.imagenPrincipal[0]">
-        <img [src]="producto.imagenPrincipal[0].url" alt="" class="img-fluid" style="height: 23vw;">
-    </div>
-
-    <div class="col-6">
-        <div class="row">
-            <div class="col-4 text-center" *ngFor="let imagen of producto.imagenesSecundarias">
-                <img [src]="imagen.url" alt="" class="img-fluid">
+<!-- Imagenes en pantalla mediana/grande -->
+<div class="imagenes-lg d-none d-md-block ">
+    <div class="row m-4 imagenes">
+        <div class="col-6 text-center" *ngIf="producto.imagenPrincipal[0]">
+            <img [src]="producto.imagenPrincipal[0].url" alt="" class="img-fluid" style="height: 23vw;" (click)="ampliarImagen(producto.imagenPrincipal[0].url)">
+        </div>
+    
+        <div class="col-6">
+            <div class="row">
+                <div class="col-4 text-center" *ngFor="let imagenSecundaria of producto.imagenesSecundarias">
+                    <img [src]="imagenSecundaria.url" alt="" class="img-fluid"  (click)="ampliarImagen(imagenSecundaria.url)">
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="datos">
+
+<!-- Imagenes en pantalla pequeña -->
+<div class="imagenes-md d-md-none">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img [src]="producto.imagenPrincipal[0].url" class="d-block w-100" alt="..."  (click)="ampliarImagen(producto.imagenPrincipal[0].url)">
+          </div>
+          <div *ngFor="let imagenSecundaria of producto.imagenesSecundarias" class="carousel-item">
+            <img [src]="imagenSecundaria.url" class="d-block w-100" alt="..." (click)="ampliarImagen(imagenSecundaria.url)">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+</div>
+
+<!-- Datos del producto -->
+<div class="datos mt-2">
     <p class="mx-4" id="descripcionLarga">{{producto.descripcionLarga}}</p>
     <p *ngIf="producto.seccion" class="mx-4 text-center">SECCION: {{producto.seccion.nombre}}</p>
     <p class="text-center"><b>PRECIO: {{producto.precio}}</b></p>
@@ -87,3 +114,18 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Ampliar Imagen-->
+<div class="modal fade" id="imagenModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img [src]="imagenSeleccionadaURL" alt="" class="img-fluid" style="width:100%; height: auto;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+

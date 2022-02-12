@@ -21,6 +21,7 @@ export class ProductoFichaComponent implements OnInit {
   productoNuevo: Producto = new Producto();
   isLoggedAdmin;
   isLoggedUser;
+  imagenSeleccionadaURL: string;
 
   //Imagen principal
   imagenPrincipalSubida: Imagen[] = [];
@@ -213,5 +214,9 @@ export class ProductoFichaComponent implements OnInit {
         Swal.fire('El producto NO se ha añadido al carro', '', 'info')
       }
     })
+  }
+  ampliarImagen(url: string): void {
+    this.imagenSeleccionadaURL = url;
+    $("#imagenModal").modal('show');
   }
 }
