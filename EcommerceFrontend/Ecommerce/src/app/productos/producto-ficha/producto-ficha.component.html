@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="datos">
-    <p class="mx-4">{{producto.descripcionLarga}}</p>
+    <p class="mx-4" id="descripcionLarga">{{producto.descripcionLarga}}</p>
     <p *ngIf="producto.seccion" class="mx-4 text-center">SECCION: {{producto.seccion.nombre}}</p>
     <p class="text-center"><b>PRECIO: {{producto.precio}}</b></p>
 </div>
@@ -27,7 +27,6 @@
     <button class="btn btn-success m-1" (click)="agregarProducto()">AÑADIR AL CARRO DE LA COMPRA</button>
 
 </div>
-
 
 <!-- Modal Modificar producto-->
 <div class="modal fade" id="modificarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

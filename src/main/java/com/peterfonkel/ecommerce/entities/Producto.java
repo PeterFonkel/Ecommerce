@@ -24,6 +24,7 @@ public class Producto {
 	Long id;
 	private String nombre;
 	private String descripcion;
+	@Column(length = 2000)
 	public String descripcionLarga;
 	private float precio;
 

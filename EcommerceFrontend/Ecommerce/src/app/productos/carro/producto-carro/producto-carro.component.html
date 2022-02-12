@@ -1,12 +1,14 @@
 <div *ngIf="productoCarro.producto" class="row m-4 p-2" style="background: rgb(252, 249, 249); box-shadow: 2px 2px 10px #666;  border-radius: 5px;">
-    <div class="col-1"></div>
-    <div  class="col-2">{{productoCarro.producto.nombre}}</div>
-    <div class="col-3">{{productoCarro.producto.descripcion}}</div>
-    <div class="col-1">{{productoCarro.producto.precio}}</div>
-    <div class="col-2">{{productoCarro.producto.seccion}}</div>
-    <div class="col-1">
-        <button class="btn btn-danger mr-3" (click)="quitarUnidad()">-</button>
+    <div  class="col-6 d-lg-none"><b>PRODUCTO</b></div>
+    <div class="col-6 d-lg-none"><b>DESCRIPCIÓN</b></div>
+    <div  class="col-6 col-lg-2">{{productoCarro.producto.nombre}}</div>
+    <div class="col-6 col-lg-5">{{productoCarro.producto.descripcion}}</div>
+    <div  class="col-6 d-lg-none mt-2"><b>PRECIO</b></div>
+    <div class="col-6 d-lg-none mt-2"><b>CANTIDAD</b></div>
+    <div class="col-6 col-lg-1">{{productoCarro.producto.precio}}</div>
+    <div class="col-4">
+        <button class="btn btn-sm  btn-danger mr-3" (click)="quitarUnidad()">-</button>
         {{productoCarro.cantidad}}
-        <button class="btn btn-danger ml-3" (click)="sumarUnidad()">+</button>
+        <button class="btn btn-sm btn-danger ml-3" (click)="sumarUnidad()">+</button>
     </div>
 </div>

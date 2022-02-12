@@ -56,7 +56,6 @@ export class ProductosComponent implements OnInit {
     this.obtenerPerfilDeUsuario();
     this.getSecciones();
     this.getProductos();
-
   }
 
   //Obtener el rol del usuario

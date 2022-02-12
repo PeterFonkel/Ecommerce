@@ -1,16 +1,17 @@
-<div *ngIf="isLoggedAdmin" class="row m-4">
+<div *ngIf="isLoggedAdmin" class="row mt-4">
     <div class="row">
         <h3 class="text-center">Gestion de pedidos</h3>
         <p class="text-center">En esta sección pueden gestionarse los pedidos de la aplicación.</p>
     </div>
 </div>
 
-<div *ngIf="isLoggedUser && !isLoggedAdmin" class="row m-4">
+<div *ngIf="isLoggedUser && !isLoggedAdmin" class="row m-t4">
     <h3 class="text-center">Pedidos realizados</h3>
     <p class="text-center">En esta sección pueden consultarse los pedidos realizados por el usuario.</p>
 </div>
 
-<h5 class="text-center">
+<div class="text-center">
+    <p><b>Filtrar</b></p>
     <select name="filtrar" id="">
         <option value="" (click)="filtrar('no_enviados')">Pendientes de enviar</option>
         <option value="" (click)="filtrar('no_entregados')">Enviados y pendientes de entregar</option>
@@ -18,7 +19,7 @@
         <option value="" (click)="filtrar('entregados')">Entregados</option>
         <option value="" (click)="getPedidos()" selected>Todos</option>
     </select>
-</h5>
+</div>
 
 <hr>
 
@@ -31,6 +32,7 @@
     <div class="col-7 col-lg-4"><b>PRODUCTOS</b></div>
 
 </div>
+
 <div *ngFor="let pedido of pedidos">
     <app-pedido [pedido]="pedido" (refreshEvent)="ngOnInit()"></app-pedido>
 </div>

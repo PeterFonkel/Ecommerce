@@ -70,6 +70,7 @@ export class ProductoFichaComponent implements OnInit {
   getProducto(): void {
     this.productosService.getProducto(this.id).subscribe(producto => {
       this.producto = producto;
+      document.querySelector("#descripcionLarga").innerHTML = this.producto.descripcionLarga.split("\n").join("<br>");
       this.seccionesService.getSeccionFromProducto(this.producto).subscribe(seccion => {
         this.producto.seccion = seccion;
         this.producto.seccion.id = this.seccionesService.getIdseccion(seccion);
@@ -84,6 +85,7 @@ export class ProductoFichaComponent implements OnInit {
         this.producto.id = this.id;
       })
     })
+    
   }
 
   //Obtener las secciones disponibles

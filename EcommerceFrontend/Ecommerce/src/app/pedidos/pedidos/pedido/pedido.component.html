@@ -35,14 +35,14 @@
         <div *ngIf="isLoggedAdmin && !pedido.fechaEntrega" class="row m-1"><button class="btn btn-success" (click)="entregarPedido()">ENTREGAR</button></div>
     </div>
 
-    <h6><b>ESTADO DEL PEDIDO: </b>
+    <h6 class="mt-4"><b>ESTADO DEL PEDIDO: </b>
         <h6 *ngIf="!pedido.fechaEnvio" style="display: inline;">PENDIENTE DE ENVIAR </h6>
         <h6 *ngIf="pedido.fechaEnvio && !pedido.fechaEntrega"  style="display: inline;">ENVIADO</h6>
         <h6 *ngIf="pedido.fechaEntrega"  style="display: inline;">ENTREGADO</h6>
     </h6>
     <!-- Botones para pantallas pequeñas -->
     <div class="d-lg-none mt-3">
-        <hr>
+        <hr *ngIf="isLoggedAdmin">
         <div class="row">
             <div *ngIf="isLoggedAdmin" class="col-4"><button class="btn btn-danger btn-sm" (click)="eliminarPedido()">ELIMINAR</button></div>
             <div *ngIf="isLoggedAdmin && !pedido.fechaEnvio" class="col-4"><button class="btn btn-primary btn-sm" (click)="enviarPedido()">ENVIAR</button></div>
