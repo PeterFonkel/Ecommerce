@@ -1,6 +1,5 @@
 package com.peterfonkel.ecommerce.rest;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.peterfonkel.ecommerce.entities.Producto;
 import com.peterfonkel.ecommerce.entities.ProductoCarro;
-import com.peterfonkel.ecommerce.entities.Seccion;
 import com.peterfonkel.ecommerce.login.usuarios.UsuarioDAO;
 import com.peterfonkel.ecommerce.login.usuarios.entidades.Usuario;
 import com.peterfonkel.ecommerce.repositories.ProductoCarroDAO;

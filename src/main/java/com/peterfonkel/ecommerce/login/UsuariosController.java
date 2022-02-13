@@ -69,4 +69,6 @@ public class UsuariosController {
 		System.out.println("En getById controller: " + email);
 		return getUsuarioService().getByEmail(email);
 	}
+	
+
 }

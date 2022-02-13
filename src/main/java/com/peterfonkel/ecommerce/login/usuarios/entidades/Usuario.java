@@ -1,12 +1,17 @@
 package com.peterfonkel.ecommerce.login.usuarios.entidades;
 
+import com.peterfonkel.ecommerce.entities.Direccion;
 import com.peterfonkel.ecommerce.entities.Pedido;
 
 import com.peterfonkel.ecommerce.entities.ProductoCarro;
 import com.peterfonkel.ecommerce.login.roles.Rol;
 import com.sun.istack.NotNull;
 import javax.persistence.*;
+
+import org.hibernate.mapping.Array;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +27,6 @@ public class Usuario {
 	@NotNull
 	@Column(unique = true)
 	private String email;
-
 	private String nombre;
 	private String telefono;
 
@@ -40,6 +44,10 @@ public class Usuario {
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", nullable = true)
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "usuario_id", nullable = true)
+	private List<Direccion> direcciones = new ArrayList<Direccion>();
 
 	public Usuario() {
 	}
@@ -162,6 +170,32 @@ public class Usuario {
 
 	public void vaciarCarro() {
 		this.carro = new ArrayList<ProductoCarro>();
+	}
+
+	public void addDireccion(Direccion direccion) {
+		this.direcciones.add(direccion);
+	}
+	
+	public void borrarDireccion(Direccion direccionBorrar) {
+		for (Direccion direccion : direcciones) {
+			if(direccion.getCiudad().equals(direccionBorrar.getCiudad()) && 
+				direccion.getCalle().equals(direccionBorrar.getCalle()) && 
+				direccion.getNumero().equals(direccionBorrar.getNumero())){
+				direcciones.remove(direccion);
+				break;
+			}
+		}
+	}
+	
+
+	
+
+	public List<Direccion> getDirecciones() {
+		return direcciones;
+	}
+
+	public void setDirecciones(List<Direccion> direcciones) {
+		this.direcciones = direcciones;
 	}
 
 	@Override

@@ -8,4 +8,5 @@ export interface Usuario {
     email: string;
     roles: Rol[];
     carro: ProductoCarro[];
+    direccionesEntrega: string[];
 }

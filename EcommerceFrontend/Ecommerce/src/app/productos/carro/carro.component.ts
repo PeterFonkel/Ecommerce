@@ -4,7 +4,9 @@ import { UsuariosService } from 'src/app/seguridad/service/usuarios.service';
 import { ProductoCarro } from '../models/ProductoCarro';
 import { ProductosService } from '../service/productos.service';
 import Swal from "sweetalert2";
-import { Pedido } from 'src/app/pedidos/models/Pedido';
+import { Usuario } from 'src/app/seguridad/models/Usuario';
+import { Direccion } from 'src/app/pedidos/models/Direccion';
+import { DireccionesService } from 'src/app/pedidos/service/direcciones.service';
 
 @Component({
   selector: 'app-carro',
@@ -13,11 +15,16 @@ import { Pedido } from 'src/app/pedidos/models/Pedido';
 })
 export class CarroComponent implements OnInit {
   carro: ProductoCarro[] = [];
-  direccionEntrega: string;
+  direccionEntrega: Direccion = new Direccion();
+  usuario: Usuario;
   @Input() id: string = sessionStorage.getItem("ID");
   precioTotal: number = 0;
 
-  constructor(private productosService: ProductosService, private pedidosService: PedidosService, private usuariosService: UsuariosService) { }
+  constructor(
+    private productosService: ProductosService, 
+    private pedidosService: PedidosService, 
+    private usuariosService: UsuariosService,
+    private direccionesService: DireccionesService) { }
 
   ngOnInit() {
     this.getCarro();
@@ -27,6 +34,14 @@ export class CarroComponent implements OnInit {
   getCarro(): void {
     this.precioTotal = 0;
     this.usuariosService.getUsuarioLogeado().subscribe(usuarioApi=>{
+      this.direccionesService.getDirecciones(sessionStorage.getItem("ID")).subscribe(direcciones=>{
+        direcciones.forEach(direccionApi => {
+          direccionApi.id = this.direccionesService.getIdDireccion(direccionApi);
+        });
+        this.usuario.direccionesEntrega = direcciones;
+        console.log(this.usuario.direccionesEntrega)
+      })
+      this.usuario = usuarioApi;
       this.usuariosService.getCarroFromUsuario(usuarioApi).subscribe(carro=>{
         this.carro = carro;
         this.carro.forEach(productoEnCarroApi => {
@@ -76,5 +91,13 @@ export class CarroComponent implements OnInit {
         Swal.fire('El pedido NO se ha realizado', '', 'info')
       }
     })    
+  }
+
+  agregarDireccion(): void{
+    this.direccionesService.postDireccion(this.direccionEntrega).subscribe(direccionApi=>{
+      this.direccionEntrega = direccionApi;
+      this.direccionEntrega.id = this.direccionesService.getIdDireccion(direccionApi);
+      this.realizarPedido();
+    });
   }
 }

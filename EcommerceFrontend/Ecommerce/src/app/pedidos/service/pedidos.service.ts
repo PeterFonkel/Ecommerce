@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductoCarro } from 'src/app/productos/models/ProductoCarro';
 import { environment } from 'src/environments/environment';
+import { Direccion } from '../models/Direccion';
 import { Pedido } from '../models/Pedido';
 
 const cabecera = {
@@ -18,7 +19,7 @@ export class PedidosService {
 
   constructor(private http: HttpClient) { }
 
-    postPedido(carro: ProductoCarro[], direccion: string): Observable<any> {
+    postPedido(carro: ProductoCarro[], direccion: Direccion): Observable<any> {
       let pedido = new Pedido();
       pedido.carro = carro;
       pedido.direccionEntrega = direccion;
@@ -68,4 +69,5 @@ export class PedidosService {
     getUsuarioFromPedido(pedido: any): Observable<any>{
       return this.http.get(this.endpoint + "/pedidos/" + pedido.id + "/usuario", cabecera);
     }
+    
 }

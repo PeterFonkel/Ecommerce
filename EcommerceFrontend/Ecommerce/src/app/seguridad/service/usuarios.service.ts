@@ -73,4 +73,7 @@ export class UsuariosService {
     // console.log(`trozos: ${ trozos }`);
     return trozos[trozos.length - 1];
   }
+  patchUsuario(usuario: Usuario): void {
+    this.http.patch(this.endPoint + "/" + sessionStorage.getItem("ID"), usuario, cabecera);
+  }
 }

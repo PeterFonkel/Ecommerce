@@ -30,7 +30,7 @@ public class Pedido {
 	private Instant fechaPedido;
 	private Instant fechaEntrega;
 	private Instant fechaEnvio;
-	private String direccionEntrega;
+	
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido_id")
@@ -38,6 +38,9 @@ public class Pedido {
 
 	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = false)
 	private Usuario usuario;
+	
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = false)
+	private Direccion direccionEntrega;
 
 	public Pedido() {
 		super();
@@ -98,13 +101,12 @@ public class Pedido {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
 
-	public String getDireccionEntrega() {
+	public Direccion getDireccionEntrega() {
 		return direccionEntrega;
 	}
 
-	public void setDireccionEntrega(String direccionEntrega) {
+	public void setDireccionEntrega(Direccion direccionEntrega) {
 		this.direccionEntrega = direccionEntrega;
 	}
 

@@ -1,5 +1,6 @@
 import { ProductoCarro } from "src/app/productos/models/ProductoCarro";
 import { UsuarioImpl } from "src/app/seguridad/models/UsuarioImpl";
+import { Direccion } from "./Direccion";
 
 export class Pedido {
     id: string;
@@ -10,7 +11,7 @@ export class Pedido {
     carro: ProductoCarro[] = [];
     precioTotal: number;
     usuario: UsuarioImpl;
-    direccionEntrega: string;
+    direccionEntrega: Direccion;
 
     constructor(){
 

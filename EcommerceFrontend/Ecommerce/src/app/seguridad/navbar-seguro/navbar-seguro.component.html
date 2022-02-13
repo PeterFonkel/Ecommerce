@@ -27,7 +27,7 @@
       <li *ngIf="isLoggedUser && !isLoggedAdmin" class="nav-item mx-1">
         <a class="nav-link" href="#" routerLink="productos/carro" (click)="cerrarNavBar()">Carro de la compra</a>
       </li>
-      <li class="nav-item mx-1">
+      <li  *ngIf="isLoggedUser" class="nav-item mx-1">
         <a class="nav-link" href="#" routerLink="pedidos/pedidos" (click)="cerrarNavBar()">Mis pedidos</a>
       </li>
       

@@ -32,8 +32,6 @@ public class Producto {
 	private Seccion seccion;
 	private Boolean publicado = true;
 
-	@OneToMany
-	private List<ProductoCarro> productoCarro = new ArrayList<ProductoCarro>();
 
 	public Producto() {
 		super();
@@ -86,17 +84,6 @@ public class Producto {
 		this.seccion = seccion;
 	}
 
-	public List<ProductoCarro> getProductoCarro() {
-		return productoCarro;
-	}
-
-	public void setProductoCarro(List<ProductoCarro> productoCarro) {
-		this.productoCarro = productoCarro;
-	}
-
-	public void addProductoCarro(ProductoCarro productoCarro) {
-		this.productoCarro.add(productoCarro);
-	}
 	
 	public Boolean getPublicado() {
 		return publicado;

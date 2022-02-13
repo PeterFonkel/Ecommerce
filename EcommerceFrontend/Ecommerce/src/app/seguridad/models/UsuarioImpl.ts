@@ -10,6 +10,7 @@ export class UsuarioImpl implements Usuario {
   email: string;
   roles: Rol[]= [];
   carro: ProductoCarro[] = [];
+  direccionesEntrega: string[] = [];
   
   
   constructor(){

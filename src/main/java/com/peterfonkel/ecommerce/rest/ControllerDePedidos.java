@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.peterfonkel.ecommerce.entities.Direccion;
 import com.peterfonkel.ecommerce.entities.Pedido;
 import com.peterfonkel.ecommerce.entities.Producto;
 import com.peterfonkel.ecommerce.entities.ProductoCarro;
 import com.peterfonkel.ecommerce.login.usuarios.UsuarioDAO;
 import com.peterfonkel.ecommerce.login.usuarios.entidades.Usuario;
+import com.peterfonkel.ecommerce.repositories.DireccionDAO;
 import com.peterfonkel.ecommerce.repositories.PedidoDAO;
 import com.peterfonkel.ecommerce.repositories.ProductoCarroDAO;
 import com.peterfonkel.ecommerce.repositories.ProductoDAO;
@@ -47,12 +49,16 @@ public class ControllerDePedidos {
 	UsuarioDAO usuarioDAO;
 
 	@Autowired
+	DireccionDAO direccionDAO;
+	
+	@Autowired
 	public ControllerDePedidos(ProductoDAO productoDAO, PedidoDAO pedidoDAO, UsuarioDAO usuarioDAO,
-			ProductoCarroDAO productoCarroDAO) {
+			ProductoCarroDAO productoCarroDAO, DireccionDAO direccionDAO) {
 		this.pedidoDAO = pedidoDAO;
 		this.usuarioDAO = usuarioDAO;
 		this.productoCarroDAO = productoCarroDAO;
 		this.productoCarroDAO = productoCarroDAO;
+		this.direccionDAO = direccionDAO;
 
 	}
 
@@ -78,6 +84,8 @@ public class ControllerDePedidos {
 	@ResponseBody
 	public PersistentEntityResource postPedido(@PathVariable("id") Integer id, @RequestBody Pedido pedido,
 			PersistentEntityResourceAssembler assembler) {
+		Direccion direccion =  direccionDAO.findById(pedido.getDireccionEntrega().getId()).get();
+		pedido.setDireccionEntrega(direccion);
 		Usuario usuario = usuarioDAO.findById(id).get();
 		pedido.setFechaPedido(Instant.now());
 		pedido.setUsuario(usuario);
@@ -88,7 +96,6 @@ public class ControllerDePedidos {
 			productoCarro = productoCarroDAO.findById(productoCarro.getId()).get();
 			Producto producto = productoDAO.findById((productoCarro.getProducto().getId())).get();
 			productoCarro.setProducto(producto);
-			producto.addProductoCarro(productoCarro);
 			productoCarro.setPedido(pedidoGuardado);
 			productoCarroDAO.save(productoCarro);
 		}
