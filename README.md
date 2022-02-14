@@ -209,6 +209,23 @@ dependencies {
   ...
   }
 ``` 
+Creamos un archivo claves.properties en la carpeta resources de la API.
+~~~
+# Autenticacion con googleID debe coincidir con el del Front
+google.clientId="cliente de google cloud"
+
+# jwt
+jwt.secret=kajshdfklhasietewrtyeretert (escribir un codigo propio)
+jwt.expiration=3600000  (tiempo de expiracion del JWT)
+
+# secretPsw
+secretPsw=kasdjhfkfvkmdreyetryeyuHAwhjesdF (escribir un codigom propio)
+
+# correo de administracion
+correoAdmin= "email del administrador"
+~~~
+IMPORTANTE: Añadir a gitignore antes de subir a GITHUB. Sino expondrás tus claves.
+
 
 ### 4.c. Base de datos H2 (local)
 
