@@ -149,6 +149,8 @@ service firebase.storage {
 9. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
 10. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
 11. Nombramos nuestra app y click en "Registrar".
+12. Creamos un proyecto en Google Cloud. [Google CLoud](https://console.cloud.google.com/)
+13. En el menu lateral "API y Servicios" > Credenciales > +CREAR CREDENCIALES > Id de cliente OAuth. Copiamos el id, lo necesitaremos en el "claves.properties" que crearemos mas adelante.
 
 
 
@@ -212,7 +214,7 @@ dependencies {
 Creamos un archivo claves.properties en la carpeta resources de la API.
 ~~~
 # Autenticacion con googleID debe coincidir con el del Front
-google.clientId="cliente de google cloud"
+google.clientId="id de cliente OAUTH de google cloud"
 
 # jwt
 jwt.secret=kajshdfklhasietewrtyeretert (escribir un codigo propio)
