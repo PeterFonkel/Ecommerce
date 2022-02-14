@@ -24,7 +24,7 @@ El almacenamiento de imagenes se realiza en FIrebase (Storage y Realtime Databas
 <br>
 <p align="center"><b>CREACIÓN DE UN PRODUCTO</b></P>
 <p align="center">
-  <img width="900" height="auto" src="imagenes_doc/Imagenes_Firebase.png">
+  <img width="900" height="auto" src="imagenes_doc/Imagenes_firebase.png">
 </p>
 
 
@@ -42,7 +42,7 @@ Los usuarios se registran solos como "user". El "admin" puede crear también  ot
 
 Los usuarios y contraseñas son gestionados por Firebase Auth.
  <p align="center">
-  <img width="900" height="auto" src="imagenes_doc/Firebase_auth_croquis.png">
+  <img width="900" height="auto" src="imagenes_doc/Firebase_auth_esquema.png">
 </p>
 
 
