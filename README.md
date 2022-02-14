@@ -133,7 +133,7 @@ Clase de configuración de la seguridad. Se definen parametros como:
 }
 ~~~
 
-9. 3. Click en "Storage" en el menu lateral.
+9. Click en "Storage" en el menu lateral.
 10. Click en Comenzar.
 11. Configuramos reglas de seguridad:
 ~~~
