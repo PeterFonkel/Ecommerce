@@ -24,7 +24,7 @@ El almacenamiento de imagenes se realiza en FIrebase (Storage y Realtime Databas
 <br>
 <p align="center"><b>CREACIÓN DE UN PRODUCTO</b></P>
 <p align="center">
-  <img width="900" height="auto" src="imagenes_doc/Imagenes_firebase.png">
+  <img width="900" height="auto" src="imagenes_doc/Imagenes_Firebase.png">
 </p>
 
 
