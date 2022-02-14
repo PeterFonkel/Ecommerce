@@ -197,7 +197,7 @@ spring.datasource.driver-class-name=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
 
-## Tengo que poner la ruta a la BD - en este caso a localhost
+# Tengo que poner la ruta a la BD - en este caso a localhost
 spring.datasource.url=jdbc:h2:tcp://localhost/~/Desktop/EcommerceApp/BaseDeDatosH2/test
 ~~~
 
@@ -208,12 +208,12 @@ Enlace de la base de datos Elephant SQL. [ElephantSQL Database](https://www.elep
 En aplication.properties:
 
 ~~~
-## Configuracion de acceso a BD Elephant
+# Configuracion de acceso a BD Elephant
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.username=usuario
 spring.datasource.password=contrase�a
 
-## Tengo que poner la ruta a la BD - en este caso a elephant
+# Tengo que poner la ruta a la BD - en este caso a elephant
 spring.datasource.url=jdbc:postgresql://tai.db.elephantsql.com:5432/
 
 # Configuracion de Hibernate para elephant
