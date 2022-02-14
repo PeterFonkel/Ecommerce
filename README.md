@@ -1,6 +1,6 @@
 # E-Commerce
 
-## 1.Descripción general
+## 1. Descripción general
 
 Esta es una aplicación de comercio en internet en la que se pueden encontrar productos agrupados en secciones y en la que se pueden realizar pedidos. 
 
