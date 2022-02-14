@@ -1,6 +1,29 @@
-# Autenticación con Firebase y Jason Web Token (JWT)
+# E-Commerce
 
 ## Descripción general
+
+Esta es una aplicación de comercio en internet en la que se pueden encontrar productos agrupados en secciones y en la que se pueden realizar pedidos. 
+
+La aplicación gestiona los permisos con roles (Admin y User) controlando el acceso con Jason Web Token (JWT) y realizando la verificación por usuario y contraseña con Firebase Auth.
+
+Funcionalidades:
+- CRUD de productos con datos e imagenes (busqueda por palabras y filtro por sección).
+- CRUD de pedidos con productos.
+- CRUD de usuarios con roles.
+- CRUD de secciones.
+
+
+ <p align="center">
+  <img width="900" height="auto" src="imagenes_doc/Productos.png">
+</p>
+
+## Arquitectura
+
+Este proyecto se compone de una API REST HATEOAS en el Backend, un FrontEnd desarrollado con Angular, una base de datos SQL (H2 en desarrollo y ElephantSQL en pre-producción).
+El almacenamiento de imagenes se realiza en FIrebase (Storage y Realtime Database).
+
+## Seguridad
+
 
 Se trata de un proyecto de una aplicación con un Backend API REST HATEOAS y un Frontend con Angular 8. La arquitectura de la seguridad es la siguiente:
 
@@ -12,90 +35,17 @@ Seguridad API: Spring Security y JWT.
 
 Login con usuario y contraseña: Firebase (Google Cloud).
 
-El registro de usuarios lo hace el administrador.
+Los usuarios se registran solos cono "user". El "admin" puede crear otros usuarios "admin".
 
-Se ha creado una clase productos como ejemplo con los siguientes permisos:
+## Autenticación con Firebase
 
-- ADMIN: CRUD Productos.
+Los usuarios y contraseñas son gestionados por Firebase Auth.
 
-- USER: READ Productos.
+## Seguridad API con Jason Web Token (JWT).
 
-## Crear Proyecto en Firebase
+Las peticiones a la API y la gestion de permisos por roles se realiza con JWT.
 
-1. Accedemos a la consola de Firebase con nuestro email de google: [Consola_Firebase](https://console.firebase.google.com/).
-2. Agregamos un proyecto.
-3. Click en "Authentication" en el menu lateral.
-4. Click en Comenzar.
-5. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
-6. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
-7. Nombramos nuestra app y click en "Registrar".
-
-
-
-## Instalación de firebase
-
-### En el Front:
-
-En la consola de nuestro ordenador y en la carpeta de nuestro proyecto:
-
-`npm install firebase --save`
-
-Cambiamos la versión de Firebase en package.json: 
-
-```
-"dependencies": {
-   
-    "firebase": "^8.10.0"
-    
-  }
-  ```
-  
-  Reinstalamos las dependencias:
-  
-  `npm install`
-  
-  En la carpeta enviroments creamos el archivo firebase.ts con la configuración de nuestro proyecto Firebase. Esta información se encuentra en el icono ⚙️ al lado de "Descripción general del proyecto" > "configuración del proyecto".
-  
-  
- <p align="center">
-  <img width="200" height="auto" src="imagenes_doc/Menu_firebase.png">
-</p>
-  
-  
-  ```
-  export const firebaseConfig = {
-  
-    apiKey: "XXXXXXXXXXXXXXXXXXXX",
-    authDomain: "xxxxxxxxxxxxx.firebaseapp.com",
-    projectId: "xxxxxxxxxxxxxxxxx",
-    messagingSenderId: "xxxxxxxxxx",
-    appId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    measurementId: "xxxxxxxxxxxxxxxx"
-    
- };
- ```
-
-Estas claves son privadas. Añadir a gitignore antes de subir a github.
-
-
-
-
-### En la API:
-
-En build.gradle:
-
-```
-dependencies {
-  ...
-  implementation 'com.google.firebase:firebase-admin:8.1.0'
-  implementation 'com.google.api-client:google-api-client:1.30.9' 
-  ...
-  }
-``` 
-
-## Jason Web Token (JWT).
-
-### Implementación
+## Implementación
 
  <p align="center">
   <img width="900" height="auto" src="imagenes_doc/JWT.png">
@@ -149,5 +99,82 @@ Clase de configuración de la seguridad. Se definen parametros como:
 1. End-points sin securizar: En nuestro caso solo "oauth".
 2.  Punto de entrada: JWTEntryPoint.
 3.  Filtro: JWTTokenFilter
+
+
+
+## Instrucciones de instalación
+
+### Crear Proyecto en Firebase
+
+1. Accedemos a la consola de Firebase con nuestro email de google: [Consola_Firebase](https://console.firebase.google.com/).
+2. Agregamos un proyecto.
+3. Click en "Authentication" en el menu lateral.
+4. Click en Comenzar.
+5. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
+6. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
+7. Nombramos nuestra app y click en "Registrar".
+
+
+
+### Instalación de firebase
+
+#### En el Front:
+
+En la consola de nuestro ordenador y en la carpeta de nuestro proyecto:
+
+`npm install firebase --save`
+
+Cambiamos la versión de Firebase en package.json: 
+
+```
+"dependencies": {
+   
+    "firebase": "^8.10.0"
+    
+  }
+  ```
+  
+  Reinstalamos las dependencias:
+  
+  `npm install`
+  
+  En la carpeta enviroments creamos el archivo firebase.ts con la configuración de nuestro proyecto Firebase. Esta información se encuentra en el icono ⚙️ al lado de "Descripción general del proyecto" > "configuración del proyecto".
+  
+  
+ <p align="center">
+  <img width="200" height="auto" src="imagenes_doc/Menu_firebase.png">
+</p>
+  
+  
+  ```
+  export const firebaseConfig = {
+  
+    apiKey: "XXXXXXXXXXXXXXXXXXXX",
+    authDomain: "xxxxxxxxxxxxx.firebaseapp.com",
+    projectId: "xxxxxxxxxxxxxxxxx",
+    messagingSenderId: "xxxxxxxxxx",
+    appId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    measurementId: "xxxxxxxxxxxxxxxx"
+    
+ };
+ ```
+
+Estas claves son privadas. Añadir a gitignore antes de subir a github.
+
+
+
+
+#### En la API:
+
+En build.gradle:
+
+```
+dependencies {
+  ...
+  implementation 'com.google.firebase:firebase-admin:8.1.0'
+  implementation 'com.google.api-client:google-api-client:1.30.9' 
+  ...
+  }
+``` 
 
 
