@@ -42,7 +42,7 @@ Los usuarios se registran solos como "user". El "admin" puede crear también  ot
 
 Los usuarios y contraseñas son gestionados por Firebase Auth.
  <p align="center">
-  <img width="900" height="auto" src="imagenes_doc/Firebase_auth_esquema.png">
+  <img width="900" height="auto" src="imagenes_doc/Firebase_auth_croquis.png">
 </p>
 
 
