@@ -43,6 +43,15 @@ const routes: Routes = [
       }
     ],
   },
+  {
+    path: ``,
+    children: [
+      {
+        path: `seccion/:id`,
+        component: ProductosComponent
+      }
+    ],
+  },
 ];
 
 @NgModule({

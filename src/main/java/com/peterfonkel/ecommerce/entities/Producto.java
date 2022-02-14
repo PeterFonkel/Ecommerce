@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,6 +30,7 @@ public class Producto {
 	private float precio;
 
 	@OneToOne(optional = true)
+	@JoinColumn(name = "SECCION_PRODUCTO_ID")
 	private Seccion seccion;
 	private Boolean publicado = true;
 

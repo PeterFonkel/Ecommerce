@@ -41,12 +41,13 @@ public class ControllerDeProductos {
 
 	@Autowired
 	UsuarioDAO usuarioDAO;
-	
+
 	@Autowired
 	SeccionDAO seccionDAO;
 
 	@Autowired
-	public ControllerDeProductos(ProductoDAO productoDAO, UsuarioDAO usuarioDAO, ProductoCarroDAO productoCarroDAO, SeccionDAO seccionDAO) {
+	public ControllerDeProductos(ProductoDAO productoDAO, UsuarioDAO usuarioDAO, ProductoCarroDAO productoCarroDAO,
+			SeccionDAO seccionDAO) {
 		this.productoDAO = productoDAO;
 		this.usuarioDAO = usuarioDAO;
 		this.productoCarroDAO = productoCarroDAO;
@@ -61,25 +62,43 @@ public class ControllerDeProductos {
 		List<?> listadoProductos = productoDAO.findAll();
 		return assembler.toCollectionModel(listadoProductos);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-	@PostMapping(path = "getProductosPublicadosFiltrados")
+	@PostMapping(path = "getProductosPublicadosFiltrados/{idSeccion}")
 	@ResponseBody
-	public CollectionModel<PersistentEntityResource> getProductosPublicadosFiltrados(@RequestBody String[] keywords,  PersistentEntityResourceAssembler assembler) {
+	public CollectionModel<PersistentEntityResource> getProductosPublicadosFiltrados(
+			@PathVariable("idSeccion") Long idSeccion, @RequestBody String[] keywords,
+			PersistentEntityResourceAssembler assembler) {
+
 		List<Producto> listadoProductos = productoDAO.findAll();
-		List<Producto>productosFiltrados = new ArrayList<Producto>();
-		if (keywords.length>0) {
+		List<Producto> listadoProductosPorSeccion = new ArrayList<Producto>();
+
+		if (idSeccion != 0) {
 			for (Producto producto : listadoProductos) {
+				if (producto.getSeccion().getId().equals(idSeccion)) {
+					listadoProductosPorSeccion.add(producto);
+				}
+			}
+		} else {
+			System.out.println("EN ELSE");
+			listadoProductosPorSeccion = listadoProductos;
+		}
+
+		List<Producto> productosFiltrados = new ArrayList<Producto>();
+		if (keywords.length > 0) {
+			for (Producto producto : listadoProductosPorSeccion) {
 				for (String keyword : keywords) {
-					if((producto.getDescripcion().toLowerCase().contains(keyword.toLowerCase()) && producto.getPublicado())  || producto.getNombre().toUpperCase().contains(keyword.toUpperCase())) {
+					if ((producto.getDescripcion().toLowerCase().contains(keyword.toLowerCase())
+							&& producto.getPublicado())
+							|| producto.getNombre().toUpperCase().contains(keyword.toUpperCase())) {
 						productosFiltrados.add(producto);
 						System.out.println(producto);
 						break;
 					}
 				}
 			}
-		}else {
-			for (Producto producto : listadoProductos) {
+		} else {
+			for (Producto producto : listadoProductosPorSeccion) {
 				if (producto.getPublicado()) {
 					productosFiltrados.add(producto);
 				}
@@ -87,25 +106,41 @@ public class ControllerDeProductos {
 		}
 		return assembler.toCollectionModel(productosFiltrados);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-	@PostMapping(path = "getProductosFiltrados")
+	@PostMapping(path = "getProductosFiltrados/{idSeccion}")
 	@ResponseBody
-	public CollectionModel<PersistentEntityResource> getProductosFiltrados(@RequestBody String[] keywords,  PersistentEntityResourceAssembler assembler) {
+	public CollectionModel<PersistentEntityResource> getProductosFiltrados(@PathVariable("idSeccion") Long idSeccion,@RequestBody String[] keywords,
+			PersistentEntityResourceAssembler assembler) {
 		List<Producto> listadoProductos = productoDAO.findAll();
-		List<Producto> productosFiltrados = new ArrayList<Producto>();
-		if (keywords.length>0) {
+
+		List<Producto> listadoProductosPorSeccion = new ArrayList<Producto>();
+
+		if (idSeccion != 0) {
 			for (Producto producto : listadoProductos) {
+				if (producto.getSeccion().getId().equals(idSeccion)) {
+					listadoProductosPorSeccion.add(producto);
+				}
+			}
+		} else {
+			System.out.println("EN ELSE");
+			listadoProductosPorSeccion = listadoProductos;
+		}
+
+		List<Producto> productosFiltrados = new ArrayList<Producto>();
+		if (keywords.length > 0) {
+			for (Producto producto : listadoProductosPorSeccion) {
 				for (String keyword : keywords) {
-					if(producto.getDescripcion().toUpperCase().contains(keyword.toUpperCase()) || producto.getNombre().toUpperCase().contains(keyword.toUpperCase()) ) {
+					if (producto.getDescripcion().toUpperCase().contains(keyword.toUpperCase())
+							|| producto.getNombre().toUpperCase().contains(keyword.toUpperCase())) {
 						productosFiltrados.add(producto);
 						System.out.println(producto);
 						break;
 					}
 				}
 			}
-		}else {
-			productosFiltrados = listadoProductos;
+		} else {
+			productosFiltrados = listadoProductosPorSeccion;
 		}
 		return assembler.toCollectionModel(productosFiltrados);
 	}
@@ -133,7 +168,7 @@ public class ControllerDeProductos {
 	public PersistentEntityResource patchProducto(@RequestBody Producto producto, @PathVariable("id") Long id,
 			PersistentEntityResourceAssembler assembler) {
 		producto.setSeccion(seccionDAO.findById(producto.getSeccion().getId()).get());
-		
+
 		Producto productoModificado = productoDAO.save(producto);
 		return assembler.toModel(productoModificado);
 	}
@@ -207,11 +242,12 @@ public class ControllerDeProductos {
 		usuario.orElseThrow().vaciarCarro();
 		usuarioDAO.save(usuario.get());
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
 	@GetMapping("/getProductosPublicados")
 	@ResponseBody
-	public CollectionModel<PersistentEntityResource> getProductosPublicados(PersistentEntityResourceAssembler assembler) {
+	public CollectionModel<PersistentEntityResource> getProductosPublicados(
+			PersistentEntityResourceAssembler assembler) {
 		return assembler.toCollectionModel(productoDAO.findByPublicado(true));
 	}
 }

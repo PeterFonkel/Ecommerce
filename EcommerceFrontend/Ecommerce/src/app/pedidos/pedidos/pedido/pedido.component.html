@@ -35,7 +35,7 @@
         <div *ngIf="isLoggedAdmin && !pedido.fechaEntrega" class="row m-1"><button class="btn btn-success" (click)="entregarPedido()">ENTREGAR</button></div>
     </div>
 
-    <h6 class="mt-4"><b>ESTADO DEL PEDIDO: </b>
+    <h6 class="mt-4" (click)="verPedido()"><b>ESTADO DEL PEDIDO: </b>
         <h6 *ngIf="!pedido.fechaEnvio" style="display: inline;">PENDIENTE DE ENVIAR </h6>
         <h6 *ngIf="pedido.fechaEnvio && !pedido.fechaEntrega"  style="display: inline;">ENVIADO</h6>
         <h6 *ngIf="pedido.fechaEntrega"  style="display: inline;">ENTREGADO</h6>

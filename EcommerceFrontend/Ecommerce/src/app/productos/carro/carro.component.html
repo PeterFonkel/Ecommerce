@@ -38,8 +38,8 @@
             </select>
           </div>
 
-          <div class="row">
-            <button class="btn btn-success" (click)="realizarPedido()">Enviar a direccion selecionada</button>
+          <div class="row text-center">
+            <button class="btn btn-success" (click)="realizarPedido()"data-bs-dismiss="modal">Enviar a direccion selecionada</button>
           </div>
           <hr>
           <h6>Nueva dirección</h6>
@@ -63,7 +63,7 @@
             <input type="text" name="codigo" [(ngModel)]="direccionEntrega.codigoPostal" class="col-4">
           </div>
           <div class="row">
-            <button class="btn btn-primary" (click)="agregarDireccion()">Enviar</button>
+            <button class="btn btn-primary" (click)="agregarDireccion()"  data-bs-dismiss="modal">Enviar</button>
           </div>
         </form>
       </div>

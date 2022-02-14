@@ -27,18 +27,24 @@ export class ProductosService {
     return this.http.get<any>(this.endpoint + "/productos", cabecera).pipe(map(response=>response._embedded.productos));
   }
 
-  getProductosFiltrados(keywords: string[]): Observable<Producto[]> {
+  getProductosFiltrados(keywords: string[], idSeccion: string): Observable<Producto[]> {
     if(!keywords){
       keywords = [];
     }
-    return this.http.post<any>(this.endpoint + "/productos/search/getProductosFiltrados", keywords, cabecera).pipe(map(response=>response._embedded.productos));
+    if(idSeccion == undefined){
+      idSeccion = "0";
+    }
+    return this.http.post<any>(this.endpoint + "/productos/search/getProductosFiltrados/" + idSeccion, keywords, cabecera).pipe(map(response=>response._embedded.productos));
   }
 
-  getProductosPublicadosFiltrados(keywords: string[]): Observable<Producto[]>{
+  getProductosPublicadosFiltrados(keywords: string[], idSeccion: string): Observable<Producto[]>{
     if(!keywords){
       keywords = [];
     }
-    return this.http.post<any>(this.endpoint + "/productos/search/getProductosPublicadosFiltrados", keywords, cabecera).pipe(map(response=>response._embedded.productos));
+    if(idSeccion == undefined){
+      idSeccion = "0";
+    }
+    return this.http.post<any>(this.endpoint + "/productos/search/getProductosPublicadosFiltrados/" + idSeccion, keywords, cabecera).pipe(map(response=>response._embedded.productos));
     ;
   }
 
@@ -70,7 +76,7 @@ export class ProductosService {
     return this.http.patch(this.endpoint + "/productos/search/productos/" + producto.id, producto, cabecera)
   }
 
-  getProductoFronProductoSeleccionado(productoSeleccionado: any):Observable<any> {
+  getProductoFromProductoSeleccionado(productoSeleccionado: any):Observable<any> {
     return this.http.get(productoSeleccionado._links.producto.href, cabecera)
   }
 

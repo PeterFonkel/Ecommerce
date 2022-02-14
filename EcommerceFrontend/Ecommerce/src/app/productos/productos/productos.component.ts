@@ -7,6 +7,7 @@ import { Imagen } from '../models/imagen';
 import { Producto } from '../models/producto';
 import { ImagenesService } from '../service/imagenes.service';
 import { ProductosService } from '../service/productos.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import Swal from "sweetalert2";
 declare var $: any;
 
@@ -40,7 +41,7 @@ export class ProductosComponent implements OnInit {
 
   //Secciones
   secciones: Seccion[];
-
+  idSeccion: string;
   //Buscador
   keywords: string[] = [];
   palabras: string;
@@ -50,9 +51,12 @@ export class ProductosComponent implements OnInit {
     private productosService: ProductosService,
     private imagenesService: ImagenesService,
     private loginService: LoginService,
-    private seccionesService: SeccionesService) { }
+    private seccionesService: SeccionesService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
+    this.getId();
     this.obtenerPerfilDeUsuario();
     this.getSecciones();
     this.getProductos();
@@ -69,12 +73,19 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  //Obtener el id de la seccion de la url
+  getId(): void {
+    this.activatedRoute.params.subscribe(params => {
+      this.idSeccion = params.id
+    })
+  }
+
   //Obtener productos en función del rol
   getProductos(): Observable<void> {
     this.productos = [];
     //Si es admin obtiene todos los productos
     if (this.isLoggedAdmin) {
-      this.productosService.getProductosFiltrados(this.keywords).subscribe(productos => {
+      this.productosService.getProductosFiltrados(this.keywords, this.idSeccion).subscribe(productos => {
         this.productos = productos;
         this.productos.forEach(producto => {
           producto.id = this.productosService.getIdProducto(producto);
@@ -93,7 +104,7 @@ export class ProductosComponent implements OnInit {
     }
     //Si no es admin obtiene solo los productos publicados
     else {
-      this.productosService.getProductosPublicadosFiltrados(this.keywords).subscribe(productos => {
+      this.productosService.getProductosPublicadosFiltrados(this.keywords, this.idSeccion).subscribe(productos => {
         this.productos = productos;
         this.productos.forEach(producto => {
           producto.id = this.productosService.getIdProducto(producto);
