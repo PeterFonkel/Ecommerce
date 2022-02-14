@@ -1,6 +1,6 @@
 # E-Commerce
 
-## Descripción general
+## 1.Descripción general
 
 Esta es una aplicación de comercio en internet en la que se pueden encontrar productos agrupados en secciones y en la que se pueden realizar pedidos. 
 
@@ -13,45 +13,56 @@ Funcionalidades:
 - CRUD de secciones.
 
 
- <p align="center">
+<p align="center">
   <img width="900" height="auto" src="imagenes_doc/Productos.png">
 </p>
 
-## Arquitectura
+## 2. Arquitectura
 
 Este proyecto se compone de una API REST HATEOAS en el Backend, un FrontEnd desarrollado con Angular, una base de datos SQL (H2 en desarrollo y ElephantSQL en pre-producción).
 El almacenamiento de imagenes se realiza en FIrebase (Storage y Realtime Database).
+<br>
+<p align="center"><b>CREACIÓN DE UN PRODUCTO</b></P>
+<p align="center">
+  <img width="900" height="auto" src="imagenes_doc/Imagenes_Firebase.png">
+</p>
 
-## Seguridad
+
+## 3. Seguridad
+
+La arquitectura de la seguridad es la siguiente:
+
+Login con usuario y contraseña: Firebase (Google Cloud).
+
+Seguridad API: Spring Security y JWT.
+
+Los usuarios se registran solos como "user". El "admin" puede crear también  otros usuarios "admin".
+
+### 3.a. Autenticación con Firebase
+
+Los usuarios y contraseñas son gestionados por Firebase Auth.
+ <p align="center">
+  <img width="900" height="auto" src="imagenes_doc/Firebase_auth_croquis.png">
+</p>
 
 
-Se trata de un proyecto de una aplicación con un Backend API REST HATEOAS y un Frontend con Angular 8. La arquitectura de la seguridad es la siguiente:
+### 3.b.Seguridad API con Jason Web Token (JWT).
+
+Cuando un usuario se loggea con Firebase, obtiene un token de firebase. Con este token realiza una petición de loggearse en la API. Si el token es válido (comprobación con Google) y se encuentra registrado en la API recibe un JWT. Las sucesivas peticiones a la API se realizan adjuntando este JWT. La API, con este JWT, determina si esta autorizado y que rol tiene (y por tanto a que recursos puede acceder).
 
  <p align="center">
   <img width="900" height="auto" src="imagenes_doc/EsquemaSeguridad.png">
 </p>
 
-Seguridad API: Spring Security y JWT.
+### 3.c. Implementación
 
-Login con usuario y contraseña: Firebase (Google Cloud).
 
-Los usuarios se registran solos cono "user". El "admin" puede crear otros usuarios "admin".
+#### En la API:
 
-## Autenticación con Firebase
-
-Los usuarios y contraseñas son gestionados por Firebase Auth.
-
-## Seguridad API con Jason Web Token (JWT).
-
-Las peticiones a la API y la gestion de permisos por roles se realiza con JWT.
-
-## Implementación
 
  <p align="center">
   <img width="900" height="auto" src="imagenes_doc/JWT.png">
 </p>
-
-### En la API:
 
 En build.gradle:
 
@@ -66,7 +77,7 @@ dependencies {
   }
 ``` 
 
-#### Paquete JWT
+##### Paquete JWT
 
 - JWTEntryPoint
 
@@ -81,15 +92,15 @@ Clase que gestiona las operaciones internas con los token. Creación de un token
 Clase que gestiona las llamadas HTTP recibidas comprobando si contienen un token válido. Contiene un método "doFilterInternal" qie se ejecuta con cualquier llamada HTTP. Extrae el token y lo comprueba con la clase JWTProvider. Si es válido crea un "SecurityContext" del usuario autenticado. 
 
 
-#### OauthController
+##### OauthController
 
 Es el unico punto de acceso que no está securizado. Este controlador recibe una llamada para autenticarse con un token de Firebase, lo verifica con Google y devuelve un JWT creado por JWTProvider. Este token se adjuntará a las sucesivas llamadas HTTP del Front.
 
-#### UserDetailsServiceImpl
+##### UserDetailsServiceImpl
 
 Clase que implementa la interfaz "UserDetailsService" y que tiene un método que devuelve un Usuario del tipo UserDetails. Es el tipo empleado para la gestión de permisos en Spring Security.
 
-#### Paquete config
+##### Paquete config
 
 Configuración de la seguridad.
 
@@ -102,9 +113,9 @@ Clase de configuración de la seguridad. Se definen parametros como:
 
 
 
-## Instrucciones de instalación
+## 4. Instrucciones de instalación
 
-### Crear Proyecto en Firebase
+### 4.a. Crear Proyecto en Firebase
 
 1. Accedemos a la consola de Firebase con nuestro email de google: [Consola_Firebase](https://console.firebase.google.com/).
 2. Agregamos un proyecto.
@@ -116,7 +127,7 @@ Clase de configuración de la seguridad. Se definen parametros como:
 
 
 
-### Instalación de firebase
+### 4.b. Instalación de firebase
 
 #### En el Front:
 
@@ -161,9 +172,6 @@ Cambiamos la versión de Firebase en package.json:
 
 Estas claves son privadas. Añadir a gitignore antes de subir a github.
 
-
-
-
 #### En la API:
 
 En build.gradle:
@@ -176,5 +184,40 @@ dependencies {
   ...
   }
 ``` 
+
+### 4.c. Base de datos H2 (local)
+
+Enlace de descarga y guia de instalación de la base de datos H2 local para desarrollo. [H2 Database Engine](https://www.h2database.com/html/main.html)
+
+En aplication.properties:
+
+~~~
+# Configuracion de acceso a BD Local
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+## Tengo que poner la ruta a la BD - en este caso a localhost
+spring.datasource.url=jdbc:h2:tcp://localhost/~/Desktop/EcommerceApp/BaseDeDatosH2/test
+~~~
+
+### 4.d. Base de datos Elephant (pre-producción)
+
+Enlace de la base de datos Elephant SQL. [ElephantSQL Database](https://www.elephantsql.com/)
+
+En aplication.properties:
+
+~~~
+## Configuracion de acceso a BD Elephant
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=usuario
+spring.datasource.password=contrase�a
+
+## Tengo que poner la ruta a la BD - en este caso a elephant
+spring.datasource.url=jdbc:postgresql://tai.db.elephantsql.com:5432/
+
+# Configuracion de Hibernate para elephant
+hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+~~~
 
 
