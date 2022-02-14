@@ -121,9 +121,10 @@ Clase de configuración de la seguridad. Se definen parametros como:
 2. Agregamos un proyecto.
 3. Click en "Authentication" en el menu lateral.
 4. Click en Comenzar.
-5. Click en "Realtime Database" en el menu lateral.
-4. Click en Comenzar.
-5. Configuramos las reglas de seguridad:
+5. Crea un usuario con el correo "admin" y su contraseña.
+6. Click en "Realtime Database" en el menu lateral.
+7. Click en Comenzar.
+8. Configuramos las reglas de seguridad:
 ~~~
 "rules": {
     ".read": "auth.uid != null ",
@@ -132,9 +133,9 @@ Clase de configuración de la seguridad. Se definen parametros como:
 }
 ~~~
 
-6. 3. Click en "Storage" en el menu lateral.
-7. Click en Comenzar.
-8. Configuramos reglas de seguridad:
+9. 3. Click en "Storage" en el menu lateral.
+10. Click en Comenzar.
+11. Configuramos reglas de seguridad:
 ~~~
 rules_version = '2';
 service firebase.storage {
@@ -146,12 +147,11 @@ service firebase.storage {
   }
 }
 ~~~
-9. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
-10. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
-11. Nombramos nuestra app y click en "Registrar".
-12. Creamos un proyecto en Google Cloud. [Google CLoud](https://console.cloud.google.com/)
-13. En el menu lateral "API y Servicios" > Credenciales > +CREAR CREDENCIALES > Id de cliente OAuth. Copiamos el id, lo necesitaremos en el "claves.properties" que crearemos mas adelante.
-
+12. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
+13. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
+14. Nombramos nuestra app y click en "Registrar".
+15. Creamos un proyecto en Google Cloud. [Google CLoud](https://console.cloud.google.com/)
+16. En el menu lateral "API y Servicios" > Credenciales > +CREAR CREDENCIALES > Id de cliente OAuth. Copiamos el id, lo necesitaremos en el "claves.properties" que crearemos mas adelante.
 
 
 ### 4.b. Instalación de firebase
