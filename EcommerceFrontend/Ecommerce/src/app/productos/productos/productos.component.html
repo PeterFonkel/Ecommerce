@@ -128,7 +128,7 @@
             <div class="container-fluid" id="imagenesVarias">
               <div *ngFor="let imagen of imagenesSecundariasASubir" class="m-1 bucleFotografias"
                 style="display: inline-block;">
-                <app-imagen [imagen]=imagen [id]=id (deselectImageEvent)="deseleccionarImagenes($event)"></app-imagen>
+                <app-imagen [imagen]=imagen (deselectImageEvent)="deseleccionarImagenes($event)"></app-imagen>
               </div>
             </div>
           </div>

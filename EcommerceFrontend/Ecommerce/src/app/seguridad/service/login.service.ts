@@ -15,8 +15,8 @@ import { TokenDto } from "../models/token-dto";
 import { TokenService } from "./token.service";
 import { Usuario } from "../models/Usuario";
 import { RolImpl } from "../models/RolImpl";
-import { environment } from "src/environments/environment";
 import Swal from "sweetalert2";
+import { environment } from "src/environments/environment.prod";
 
 const cabecera = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),

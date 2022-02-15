@@ -4,8 +4,8 @@ export const environment = {
   production: true,
 
   title: `E-commerce`,
-  urlAPI: `urlAPI`,
-  urlBack: `urlBAck`,
+  urlAPI: `https://ecommercepeterfonkel.herokuapp.com/api`,
+  urlBack: `https://ecommercepeterfonkel.herokuapp.com`,
 
   // firebase
   apiKey: firebase.apiKey,
