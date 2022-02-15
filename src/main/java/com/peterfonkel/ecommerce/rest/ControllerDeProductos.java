@@ -216,8 +216,8 @@ public class ControllerDeProductos {
 	@ResponseBody
 	public CollectionModel<PersistentEntityResource> deleteProducto(@RequestBody Producto producto,
 			@PathVariable("id") Integer id, PersistentEntityResourceAssembler assembler) {
-		Optional<Usuario> usuario = usuarioDAO.findById(id);
-		List<ProductoCarro> productosCarro = usuario.orElseThrow().getCarro();
+		Usuario usuario = usuarioDAO.findById(id).get();
+		List<ProductoCarro> productosCarro = usuario.getCarro();
 		for (ProductoCarro productoSeleccionado : productosCarro) {
 			if (productoSeleccionado.getProducto().getId().equals(producto.getId())) {
 				if (productoSeleccionado.getCantidad() > 1) {
