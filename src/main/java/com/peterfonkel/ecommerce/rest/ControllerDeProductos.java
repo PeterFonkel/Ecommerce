@@ -178,12 +178,12 @@ public class ControllerDeProductos {
 	@ResponseBody
 	public CollectionModel<PersistentEntityResource> addProducto(@RequestBody Producto producto,
 			@PathVariable("id") Integer id, PersistentEntityResourceAssembler assembler) {
-		Optional<Usuario> usuario = usuarioDAO.findById(id);
+		Usuario usuario = usuarioDAO.findById(id).get();
 		boolean existe = false; // variable que indica si ya habia al menos una unidad de ese producto al carro
 		// Recorrer la lista de ProductoSeleccionados para comprobar si ya habia al
 		// menos una unidad agragada.
 		// En ese caso incrementa la cantidad, sino crea un nuevo ProductoSeleccionado
-		for (ProductoCarro productoSeleccionado : usuario.orElseThrow().getCarro()) {
+		for (ProductoCarro productoSeleccionado : usuario.getCarro()) {
 
 			if (productoSeleccionado.getProducto().getId().equals(producto.getId())) {
 				productoSeleccionado.setCantidad(productoSeleccionado.getCantidad() + 1);
@@ -196,10 +196,10 @@ public class ControllerDeProductos {
 			productoSeleccionadoNuevo.setCantidad(1);
 			productoSeleccionadoNuevo.setProducto(producto);
 			productoCarroDAO.save(productoSeleccionadoNuevo);
-			usuario.orElseThrow().addProductoCarro(productoSeleccionadoNuevo);
-			usuarioDAO.save(usuario.get());
+			usuario.addProductoCarro(productoSeleccionadoNuevo);
+			usuarioDAO.save(usuario);
 		}
-		return assembler.toCollectionModel(usuario.orElseThrow().getCarro());
+		return assembler.toCollectionModel(usuario.getCarro());
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
@@ -207,8 +207,8 @@ public class ControllerDeProductos {
 	@ResponseBody
 	public CollectionModel<PersistentEntityResource> getCarro(@PathVariable("id") Integer id,
 			PersistentEntityResourceAssembler assembler) {
-		Optional<Usuario> usuario = usuarioDAO.findById(id);
-		return assembler.toCollectionModel(usuario.orElseThrow().getCarro());
+		Usuario usuario = usuarioDAO.findById(id).get();
+		return assembler.toCollectionModel(usuario.getCarro());
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
@@ -238,9 +238,9 @@ public class ControllerDeProductos {
 	@ResponseBody
 	public void clearCarro(@PathVariable("id") Integer id) {
 		System.out.println("En metodo");
-		Optional<Usuario> usuario = usuarioDAO.findById(id);
-		usuario.orElseThrow().vaciarCarro();
-		usuarioDAO.save(usuario.get());
+		Usuario usuario = usuarioDAO.findById(id).get();
+		usuario.vaciarCarro();
+		usuarioDAO.save(usuario);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
