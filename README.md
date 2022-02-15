@@ -1,6 +1,6 @@
 # E-Commerce
 
-## 1.Descripción general
+## 1. Descripción general
 
 Esta es una aplicación de comercio en internet en la que se pueden encontrar productos agrupados en secciones y en la que se pueden realizar pedidos. 
 
@@ -121,10 +121,37 @@ Clase de configuración de la seguridad. Se definen parametros como:
 2. Agregamos un proyecto.
 3. Click en "Authentication" en el menu lateral.
 4. Click en Comenzar.
-5. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
-6. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
-7. Nombramos nuestra app y click en "Registrar".
+5. Crea un usuario con el correo "admin" y su contraseña.
+6. Click en "Realtime Database" en el menu lateral.
+7. Click en Comenzar.
+8. Configuramos las reglas de seguridad:
+~~~
+"rules": {
+    ".read": "auth.uid != null ",
+    ".write": "auth.uid == 'ID_DEL_ADMIN'"
+  }
+}
+~~~
 
+9. Click en "Storage" en el menu lateral.
+10. Click en Comenzar.
+11. Configuramos reglas de seguridad:
+~~~
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow write: if request.auth.uid == 'ID_DEL_ADMIN';
+      allow read: if request.auth != null;
+    }
+  }
+}
+~~~
+12. En "Agrega tu primer método de acceso y comienza a utilizar Firebase Auth" agregamos "Correo electrónico/contraseña" (lo habilitamos).
+13. Volvemos a la pagina principal del proyecto (click en "Descripción general del proyecto") y agregamos Firebase a nuestra app (click en simbolo WEB).
+14. Nombramos nuestra app y click en "Registrar".
+15. Creamos un proyecto en Google Cloud. [Google CLoud](https://console.cloud.google.com/)
+16. En el menu lateral "API y Servicios" > Credenciales > +CREAR CREDENCIALES > Id de cliente OAuth. Copiamos el id, lo necesitaremos en el "claves.properties" que crearemos mas adelante.
 
 
 ### 4.b. Instalación de firebase
@@ -184,6 +211,23 @@ dependencies {
   ...
   }
 ``` 
+Creamos un archivo claves.properties en la carpeta resources de la API.
+~~~
+# Autenticacion con googleID debe coincidir con el del Front
+google.clientId="id de cliente OAUTH de google cloud"
+
+# jwt
+jwt.secret=kajshdfklhasietewrtyeretert (escribir un codigo propio)
+jwt.expiration=3600000  (tiempo de expiracion del JWT)
+
+# secretPsw
+secretPsw=kasdjhfkfvkmdreyetryeyuHAwhjesdF (escribir un codigom propio)
+
+# correo de administracion
+correoAdmin= "email del administrador"
+~~~
+IMPORTANTE: Añadir a gitignore antes de subir a GITHUB. Sino expondrás tus claves.
+
 
 ### 4.c. Base de datos H2 (local)
 
@@ -197,7 +241,7 @@ spring.datasource.driver-class-name=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
 
-## Tengo que poner la ruta a la BD - en este caso a localhost
+# Tengo que poner la ruta a la BD - en este caso a localhost
 spring.datasource.url=jdbc:h2:tcp://localhost/~/Desktop/EcommerceApp/BaseDeDatosH2/test
 ~~~
 
@@ -208,12 +252,12 @@ Enlace de la base de datos Elephant SQL. [ElephantSQL Database](https://www.elep
 En aplication.properties:
 
 ~~~
-## Configuracion de acceso a BD Elephant
+# Configuracion de acceso a BD Elephant
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.username=usuario
 spring.datasource.password=contrase�a
 
-## Tengo que poner la ruta a la BD - en este caso a elephant
+# Tengo que poner la ruta a la BD - en este caso a elephant
 spring.datasource.url=jdbc:postgresql://tai.db.elephantsql.com:5432/
 
 # Configuracion de Hibernate para elephant
