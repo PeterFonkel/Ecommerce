@@ -221,3 +221,54 @@ hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 ~~~
 
 
+## 5. Despliegue
+
+### 5.a. Despliegue del Front en Firebase Hosting
+
+En la raiz del proyecto FrontEnd:
+~~~
+ng build --prod
+~~~
+Esto creara un directorio dist que contendrá un directorio con el nombre del proyecto
+
+~~~ 
+npm install -g firebase-tool
+~~~
+
+~~~
+firebase login
+
+? Allow Firebase to collect CLI usage and error reporting information? (Y/n) Y
+~~~
+
+En el navegador se abrira una pagina de login con la cuenta de google.
+
+~~~
+firebase init
+
+? Which Firebase features do you want to set up for this directory? Press Space to select features, then Enter to confirm your choices. Hosting: Configure files for Firebase Hosting and (optionally) set up GitHub Action deploys, Hosting: Set up GitHub Action deploys
+
+? Please select an option: Use an existing project
+
+? Select a default Firebase project for this directory: ecommerce-35664 (Ecommerce)
+
+? What do you want to use as your public directory? (public)  Enter
+
+? Configure as a single-page app (rewrite all urls to /index.html)? (y/N) N
+
+? Set up automatic builds and deploys with GitHub? (y/N) N
+
+ File public/index.html already exists. Overwrite? (y/N) N
+~~~
+
+Borramos el contenido de la carpeta public.
+Copiamos el contenido de la carpeta dist/nombre_aplicacion en la carpeta public. 
+
+~~~
+firebase deploy 
+~~~
+
+El front se desplegará y nos indicará su URL.
+
+
+### 5.b. Despliegue del Back en Heroku

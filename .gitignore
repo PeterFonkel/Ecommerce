@@ -38,3 +38,5 @@ out/
 src/main/resources/claves.properties
 authFirebaseJWTFrontend/FrontTizona/src/environments/firebase.ts
 EcommerceFrontend/Ecommerce/src/environments/firebase.ts
+
+EcommerceFrontend/public/
