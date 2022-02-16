@@ -1,1 +1,1 @@
-web: java -jar build/libs/Ecommerce-0.02.jar
+web: java -jar build/libs/Ecommerce-0.0.2-RELEASE.jar
