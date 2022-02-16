@@ -11,11 +11,11 @@ version = '0.0.2-RELEASE'
 
 sourceCompatibility = '1.8'
 
-//configurations {
-  //compileOnly {
-    //extendsFrom annotationProcessor
-  //}
-//}
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
 
 repositories {
 	mavenCentral()
@@ -63,20 +63,20 @@ dependencies {
 }
 
 
-//dependencyManagement {
-  //   imports {
-    //      mavenBom 'org.keycloak.bom:keycloak-adapter-bom:11.0.0'
-    // }
-//}
+dependencyManagement {
+     imports {
+          mavenBom 'org.keycloak.bom:keycloak-adapter-bom:11.0.0'
+     }
+}
 
-//test {
-//	useJUnitPlatform()
-//}
+test {
+	useJUnitPlatform()
+}
 
-//jar {
- //   manifest {
-   //     attributes(
-               // 'Main-Class': 'com.peterfonkel.ecommerce.EcommerceApplication'
-     //   )
-  //  }
-//}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.peterfonkel.ecommerce.EcommerceApplication'
+    				)
+    }
+}

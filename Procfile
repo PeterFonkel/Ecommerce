@@ -1,0 +1,1 @@
+web: java -jar build/libs/Ecommerce-0.02.jar
