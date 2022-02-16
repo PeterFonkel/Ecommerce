@@ -76,7 +76,7 @@ dependencies {
 //jar {
  //   manifest {
    //     attributes(
-                'Main-Class': 'com.peterfonkel.ecommerce.EcommerceApplication'
+               // 'Main-Class': 'com.peterfonkel.ecommerce.EcommerceApplication'
      //   )
   //  }
 //}
