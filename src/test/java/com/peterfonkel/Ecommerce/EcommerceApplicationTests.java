@@ -1,10 +1,11 @@
-package com.peterfonkel.authFirebaseJWT;
+package com.peterfonkel.Ecommerce;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthFirebaseJwtApplicationTests {
+class EcommerceApplicationTests {
 
 	@Test
 	void contextLoads() {
