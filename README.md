@@ -267,18 +267,49 @@ hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
 ## 5. Despliegue
 
-### 5.a. Despliegue del Front en Firebase Hosting
+### 5.a. Despliegue del Back en Heroku
+
+Heroku es una plataforma como servicio de computación en la Nube que soporta distintos lenguajes de programación.
+En esta plataforma se puede desplegar una API de forma gratuita. Las unicas limitaciones son 500 Mb de peso y que si pasa un tiempo sin recibir llamadas se desactiva. Esto provoca que, cuando se produzca una llamada por primera vez otra vez, tardará en responder unos 15-20 segundos.
+Ofrece una versión de pago que no tiene estas limitaciones.
+
+[HEROKU](www.heroku.com)
+
+Creamos una app:
+
+New -> Create new App ->  Create App
+
+Configuramos las variables del entorno (variables que no podemos subir a GITHUB)
+
+Settings - > Reveal config vars
+
+Creamos las variables del claves.properties que no subimos a github.
+
+Desplegamos la aplicación:
+
+Deploy -> Deploy method -> Github -> Seleccionamos nuestro repositorio en GITHUB.
+
+Activamos automatic deploys. Esto desplegará de nuevo la api cada vez que realicemos un push a la rama seleccionada.
+
+Click en "Deploy Branch". Nos indicará en que url se ha desplegado nuestra API. También podemos consultarla en Deploy / Domains.
+
+Esta url hay que introducirla en el "enviroment.prod" del Front para que el front sepa la direccion de la api en producción.
+
+### 5.b. Despliegue del Front en Firebase Hosting
 
 En la raiz del proyecto FrontEnd:
 ~~~
 ng build --prod
 ~~~
-Esto creara un directorio dist que contendrá un directorio con el nombre del proyecto
+Esto creara un directorio dist que contendrá un directorio con el nombre del proyecto compilado con las variables del "enviroment.prod".
 
+
+Instalacion de firebase-tools:
 ~~~ 
 npm install -g firebase-tool
 ~~~
 
+Login en Firebase:
 ~~~
 firebase login
 
@@ -306,37 +337,13 @@ firebase init
 ~~~
 
 Borramos el contenido de la carpeta public.
-Copiamos el contenido de la carpeta dist/nombre_aplicacion en la carpeta public. 
+Copiamos el contenido de la carpeta "dist/<nombre_aplicacion>" en la carpeta "public". 
 
+Desplegamos la aplicación:
 ~~~
 firebase deploy 
 ~~~
 
 El front se desplegará y nos indicará su URL.
 
-
-### 5.b. Despliegue del Back en Heroku
-
-Heroku es una plataforma como servicio de computación en la Nube que soporta distintos lenguajes de programación.
-En esta plataforma se puede desplegar una API de forma gratuita. Las unicas limitaciones son 500 Mb de peso y que si pasa un tiempo sin recibir llamadas se desactiva. Esto provoca que, cuando se produzca una llamada por primera vez otra vez, tardará en responder unos 15-20 segundos.
-Ofrece una versión de pago que no tiene estas limitaciones.
-
-[HEROKU](www.heroku.com)
-
-Creamos una app:
-
-New -> Create new App ->  Create App
-
-Configuramos las variables del entorno (variables que no podemos subir a GITHUB)
-
-Settings - > Reveal config vars
-
-Creamos las variables del claves.properties que no subimos a github.
-
-Desplegamos la aplicación:
-
-Deploy -> Deploy method -> Github -> Seleccionamos nuestro repositorio en GITHUB.
-
-Activamos automatic deploys. Esto desplegará de nuevo la api cada vez que realicemos un push a la rama seleccionada.
-
-Click en "Deploy Branch".
+En la consola de Firebase podemos configurar un dominio personalizado si lo tenemos.
