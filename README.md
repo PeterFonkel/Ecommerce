@@ -28,6 +28,8 @@ El almacenamiento de imagenes se realiza en FIrebase (Storage y Realtime Databas
 </p>
 
 
+
+
 ## 3. Seguridad
 
 La arquitectura de la seguridad es la siguiente:
