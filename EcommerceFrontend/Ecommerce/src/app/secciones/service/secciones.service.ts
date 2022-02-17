@@ -19,7 +19,7 @@ export class SeccionesService {
   constructor(private http: HttpClient) { }
 
   getSecciones(): Observable<Seccion[]>{
-    return this.http.get<any>(this.endpoint, cabecera).pipe(map(response=>response._embedded.secciones));
+    return this.http.get<any>(this.endpoint + "/search/secciones", cabecera).pipe(map(response=>response._embedded.secciones));
   }
 
   getIdseccion(p: any): string {
