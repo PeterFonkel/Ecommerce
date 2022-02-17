@@ -8,7 +8,7 @@ La aplicación gestiona los permisos con roles (Admin y User) controlando el acc
 
 Funcionalidades:
 - CRUD de productos con datos e imagenes (busqueda por palabras y filtro por sección).
-- CRUD de pedidos con productos.
+- CRUD de pedidos con productos y gestion de envio y entrega.
 - CRUD de usuarios con roles.
 - CRUD de secciones.
 
@@ -54,11 +54,9 @@ Cuando un usuario se loggea con Firebase, obtiene un token de firebase. Con este
   <img width="900" height="auto" src="imagenes_doc/EsquemaSeguridad.png">
 </p>
 
-### 3.c. Implementación
+### 3.c. Implementación seguridad con usuarios y roles con JWT
 
-
-#### En la API:
-
+Descripción del funcionamiento de la gestion de usuarios y roles con Jason Web Token.
 
  <p align="center">
   <img width="900" height="auto" src="imagenes_doc/JWT.png">
@@ -107,7 +105,7 @@ Configuración de la seguridad.
 - MyWebSecurity
 
 Clase de configuración de la seguridad. Se definen parametros como:
-1. End-points sin securizar: En nuestro caso solo "oauth".
+1. End-points sin securizar: En nuestro caso "oauth", "usuarios/search", "roles" y "secciones/search".
 2.  Punto de entrada: JWTEntryPoint.
 3.  Filtro: JWTTokenFilter
 
@@ -217,11 +215,11 @@ Creamos un archivo claves.properties en la carpeta resources de la API.
 google.clientId="id de cliente OAUTH de google cloud"
 
 # jwt
-jwt.secret=kajshdfklhasietewrtyeretert (escribir un codigo propio)
+jwt.secret=kajshdfklhasietewrtyeretert (codigo propio de al menos 20 caracteres)
 jwt.expiration=3600000  (tiempo de expiracion del JWT)
 
 # secretPsw
-secretPsw=kasdjhfkfvkmdreyetryeyuHAwhjesdF (escribir un codigom propio)
+secretPsw=kasdjhfkfvkmdreyetryeyuHAwhjesdF (codigo propio de al menos 20 caracteres)
 
 # correo de administracion
 correoAdmin= "email del administrador"
@@ -245,9 +243,23 @@ spring.datasource.password=
 spring.datasource.url=jdbc:h2:tcp://localhost/~/Desktop/EcommerceApp/BaseDeDatosH2/test
 ~~~
 
+No importa que el password de la base de datos este en el aplication.properties y que lo subamos a github. Es simlemente una base de datos local para desarrollo.
+
 ### 4.d. Base de datos Elephant (pre-producción)
 
 Enlace de la base de datos Elephant SQL. [ElephantSQL Database](https://www.elephantsql.com/)
+
+Creamos una instancia de la BD:
+
+<p align="center">
+  <img width="900" height="auto" src="imagenes_doc/ElephantSQL.png">
+</p>
+
+Configuramos el acceso a la BD en nuestra API. El password no puede estar en aplication.properties porque se expondrá en github.
+
+
+En Details vemos los datos de configuracion (URL, usuario y password). Los introducimos en application.properties y en clavers.properties:
+
 
 En aplication.properties:
 
@@ -258,12 +270,21 @@ spring.datasource.username=usuario
 spring.datasource.password=contrase�a
 
 # Tengo que poner la ruta a la BD - en este caso a elephant
-spring.datasource.url=jdbc:postgresql://tai.db.elephantsql.com:5432/
+spring.datasource.url=jdbc:postgresql://<URL>
 
 # Configuracion de Hibernate para elephant
 hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+ # Configuracion para autenticacion en archivo externo
+spring.config.import=classpath:claves.properties
 ~~~
 
+En claves.properties:
+~~~
+# Configuracion de acceso a BD Elephant
+spring.datasource.username=<User & Default database>
+spring.datasource.password=<Password>
+~~~
 
 ## 5. Despliegue
 
@@ -283,6 +304,10 @@ Configuramos las variables del entorno (variables que no podemos subir a GITHUB)
 
 Settings - > Reveal config vars
 
+<p align="center">
+  <img width="900" height="auto" src="imagenes_doc/Heroku_vars.png">
+</p>
+
 Creamos las variables del claves.properties que no subimos a github.
 
 Desplegamos la aplicación:
@@ -294,6 +319,11 @@ Activamos automatic deploys. Esto desplegará de nuevo la api cada vez que reali
 Click en "Deploy Branch". Nos indicará en que url se ha desplegado nuestra API. También podemos consultarla en Deploy / Domains.
 
 Esta url hay que introducirla en el "enviroment.prod" del Front para que el front sepa la direccion de la api en producción.
+
+<p align="center">
+  <img width="900" height="auto" src="imagenes_doc/Heroku_deploy.png">
+</p>
+
 
 ### 5.b. Despliegue del Front en Firebase Hosting
 
@@ -340,6 +370,8 @@ Borramos el contenido de la carpeta public.
 Copiamos el contenido de la carpeta "dist/<nombre_aplicacion>" en la carpeta "public". 
 
 Desplegamos la aplicación:
+
+En la raiz del proyecto Angular:
 ~~~
 firebase deploy 
 ~~~
@@ -347,3 +379,7 @@ firebase deploy
 El front se desplegará y nos indicará su URL.
 
 En la consola de Firebase podemos configurar un dominio personalizado si lo tenemos.
+
+<p align="center">
+  <img width="900" height="auto" src="imagenes_doc/Firebase_hosting.png">
+</p>
