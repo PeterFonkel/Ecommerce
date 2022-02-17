@@ -56,10 +56,14 @@ export class ProductosComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.getId();
-    this.obtenerPerfilDeUsuario();
-    this.getSecciones();
-    this.getProductos();
+
+    this.activatedRoute.paramMap.subscribe((params: ParamMap)=>{
+      this.getId();
+      this.obtenerPerfilDeUsuario();
+      this.getSecciones();
+      this.getProductos();
+    })
+   
   }
 
   //Obtener el rol del usuario

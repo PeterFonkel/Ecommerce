@@ -316,3 +316,27 @@ El front se desplegará y nos indicará su URL.
 
 
 ### 5.b. Despliegue del Back en Heroku
+
+Heroku es una plataforma como servicio de computación en la Nube que soporta distintos lenguajes de programación.
+En esta plataforma se puede desplegar una API de forma gratuita. Las unicas limitaciones son 500 Mb de peso y que si pasa un tiempo sin recibir llamadas se desactiva. Esto provoca que, cuando se produzca una llamada por primera vez otra vez, tardará en responder unos 15-20 segundos.
+Ofrece una versión de pago que no tiene estas limitaciones.
+
+[HEROKU](www.heroku.com)
+
+Creamos una app:
+
+New -> Create new App ->  Create App
+
+Configuramos las variables del entorno (variables que no podemos subir a GITHUB)
+
+Settings - > Reveal config vars
+
+Creamos las variables del claves.properties que no subimos a github.
+
+Desplegamos la aplicación:
+
+Deploy -> Deploy method -> Github -> Seleccionamos nuestro repositorio en GITHUB.
+
+Activamos automatic deploys. Esto desplegará de nuevo la api cada vez que realicemos un push a la rama seleccionada.
+
+Click en "Deploy Branch".

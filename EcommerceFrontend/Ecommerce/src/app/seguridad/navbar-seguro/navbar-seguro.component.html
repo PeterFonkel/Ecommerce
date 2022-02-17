@@ -20,8 +20,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li *ngFor="let seccion of secciones" class="nav-item mx-1"><a href="#" class="dropdown-item"
-              [routerLink]="['productos/seccion', seccion.id]" (click)="navegarASeccion()">{{seccion.nombre}}</a> </li>
-
+              [routerLink]="['productos/seccion', seccion.id]" routerLinkActive="active">{{seccion.nombre}}</a> </li>
           <li>
             <hr class="dropdown-divider">
           </li>
