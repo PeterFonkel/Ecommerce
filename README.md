@@ -245,7 +245,7 @@ spring.datasource.url=jdbc:h2:tcp://localhost/~/Desktop/EcommerceApp/BaseDeDatos
 
 No importa que el password de la base de datos este en el aplication.properties y que lo subamos a github. Es simlemente una base de datos local para desarrollo.
 
-### 4.d. Base de datos Elephant (pre-producción)
+### 4.d. Base de datos ElephantSQL (pre-producción)
 
 Enlace de la base de datos Elephant SQL. [ElephantSQL Database](https://www.elephantsql.com/)
 
