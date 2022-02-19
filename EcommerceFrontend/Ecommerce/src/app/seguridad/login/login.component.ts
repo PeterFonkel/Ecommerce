@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.email, this.password1).subscribe(usuario=>{
       setTimeout(()=>{
         this.usuarioLoggeado.roles[0].rolNombre = sessionStorage.getItem('ROL');
-        this.usuarioLoggeado.email = sessionStorage.getItem('EMAIL')
+        this.usuarioLoggeado.email = sessionStorage.getItem('EMAIL');
       },1500)
     })
   }

@@ -1,18 +1,18 @@
-<div style="display:inline;">
-    <p *ngIf="usuarioLoggeado.email; else sinLoggear" style="color: white; display: inline-flex;">Usuario:
-        {{usuarioLoggeado.email}} Rol: {{usuarioLoggeado.roles[0].rolNombre}}</p>
+<div class="row" style="display:inline;">
+    <p *ngIf="usuarioLoggeado.email; else sinLoggear" class="col-12 col-lg-8" style="color: white; display: inline-flex;">Usuario:
+        {{usuarioLoggeado.email}}</p>
     <ng-template #sinLoggear>
-        <p style="color: white; display: inline-flex;">Sin loggear</p>
+        <p  class="col-12 col-lg-5" style="color: white; display: inline-flex;">Sin loggear</p>
     </ng-template>
-    <button *ngIf="!usuarioLoggeado.email" type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
+    <button *ngIf="!usuarioLoggeado.email" type="button" class="btn btn-sm btn-primary m-1 col-12 col-lg-3" data-bs-toggle="modal"
         data-bs-target="#signInModal">
         Registrarse
     </button>
-    <button *ngIf="!usuarioLoggeado.email" type="button" class="btn btn-success m-2" data-bs-toggle="modal"
+    <button *ngIf="!usuarioLoggeado.email" type="button" class="btn btn-sm btn-success m-1 col-12 col-lg-3" data-bs-toggle="modal"
         data-bs-target="#loginModal">
         Identificarse
     </button>
-    <button *ngIf="usuarioLoggeado.email" type="button" class="btn btn-danger m-2" data-bs-toggle="modal"
+    <button *ngIf="usuarioLoggeado.email" type="button" class="btn btn-sm btn-danger m-1 col-6 col-lg-3" data-bs-toggle="modal"
         (click)="exitLogin()">
         Salir login
     </button>

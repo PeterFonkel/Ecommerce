@@ -1,7 +1,6 @@
-<div class="container-fluid text-center">
-
+<div class="container-fluid ">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav m-auto mb-2 mb-lg-0 text-center" style="margin: 0 auto">
+    <ul class="navbar-nav m-auto mb-2 mb-lg-0" style="margin: 0 auto">
 
       <li class="nav-item mx-1">
         <a class="nav-link active" aria-current="page" href="#" routerLink="" (click)="cerrarNavBar()">Inicio</a>
@@ -23,14 +22,14 @@
           </li>
         </ul>
       </li>
-      <li *ngIf="isLoggedUser && !isLoggedAdmin" class="nav-item mx-1">
+      <li *ngIf="isLoggedUser && !isLoggedAdmin" class="nav-item mx-1 col-12 col-lg-5">
         <a class="nav-link" href="#" routerLink="productos/carro" (click)="cerrarNavBar()">Carro de la compra</a>
       </li>
-      <li *ngIf="isLoggedUser" class="nav-item mx-1 col-12 col-lg-3">
+      <li *ngIf="isLoggedUser" class="nav-item mx-1 col-12 col-lg-4">
         <a class="nav-link" href="#" routerLink="pedidos/pedidos" (click)="cerrarNavBar()">Mis pedidos</a>
       </li>
 
-      <li *ngIf="isLoggedAdmin" class="nav-item dropdown mx-1">
+      <li *ngIf="isLoggedAdmin" class="nav-item dropdown mx-1 col-12 col-lg-3">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
           Administración
