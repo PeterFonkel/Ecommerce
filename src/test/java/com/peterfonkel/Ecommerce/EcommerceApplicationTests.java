@@ -1,4 +1,4 @@
-package com.peterfonkel.ecommerce;
+package com.peterfonkel.Ecommerce;
 
 import org.junit.jupiter.api.Test;
 

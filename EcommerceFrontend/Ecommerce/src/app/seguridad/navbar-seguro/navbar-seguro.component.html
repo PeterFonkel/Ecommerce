@@ -1,19 +1,13 @@
 <div class="container-fluid text-center">
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav m-auto mb-2 mb-lg-0 text-center" style="margin: 0 auto">
+
       <li class="nav-item mx-1">
         <a class="nav-link active" aria-current="page" href="#" routerLink="" (click)="cerrarNavBar()">Inicio</a>
       </li>
 
-      <!-- <li *ngIf="isLoggedUser" class="nav-item mx-1">
-        <a class="nav-link" href="#" routerLink="productos/productos" (click)="cerrarNavBar()">Productos</a>
-      </li> -->
-
-      <li *ngIf="isLoggedUser" class="nav-item dropdown mx-1">
+      <li *ngIf="isLoggedUser" class="nav-item dropdown mx-1 col-12 col-lg-3">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
           Productos
@@ -32,7 +26,7 @@
       <li *ngIf="isLoggedUser && !isLoggedAdmin" class="nav-item mx-1">
         <a class="nav-link" href="#" routerLink="productos/carro" (click)="cerrarNavBar()">Carro de la compra</a>
       </li>
-      <li *ngIf="isLoggedUser" class="nav-item mx-1">
+      <li *ngIf="isLoggedUser" class="nav-item mx-1 col-12 col-lg-3">
         <a class="nav-link" href="#" routerLink="pedidos/pedidos" (click)="cerrarNavBar()">Mis pedidos</a>
       </li>
 

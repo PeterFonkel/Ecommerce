@@ -30,9 +30,9 @@
     
     <!-- Botones para pantallas grandes -->
     <div class="d-none d-lg-block col-2">
-        <div *ngIf="isLoggedAdmin" class="row m-1"><button class="btn btn-danger" (click)="eliminarPedido()">ELIMINAR</button></div>
-        <div *ngIf="isLoggedAdmin && !pedido.fechaEnvio" class="row m-1"><button class="btn btn-primary" (click)="enviarPedido()">ENVIAR</button></div>
-        <div *ngIf="isLoggedAdmin && !pedido.fechaEntrega" class="row m-1"><button class="btn btn-success" (click)="entregarPedido()">ENTREGAR</button></div>
+        <div *ngIf="isLoggedAdmin" class="row m-1"><button class="btn btn-sm btn-danger" (click)="eliminarPedido()">ELIMINAR</button></div>
+        <div *ngIf="isLoggedAdmin && !pedido.fechaEnvio" class="row m-1"><button class="btn btn-sm btn-primary" (click)="enviarPedido()">ENVIAR</button></div>
+        <div *ngIf="isLoggedAdmin && !pedido.fechaEntrega" class="row m-1"><button class="btn btn-sm btn-success" (click)="entregarPedido()">ENTREGAR</button></div>
     </div>
 
     <h6 class="mt-4" (click)="verPedido()"><b>ESTADO DEL PEDIDO: </b>
