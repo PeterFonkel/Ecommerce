@@ -22,8 +22,14 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkLogin();
   }
 
+  checkLogin(): void {
+    this.loginService.checkLogin().subscribe(usuario=>{
+      this.usuarioLoggeado = usuario;
+    })
+  }
 
   signin(): void {
     this.rol.rolNombre = "ROLE_USER";
@@ -44,13 +50,46 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.loginService.login(this.email, this.password1).subscribe(usuario=>{
-      setTimeout(()=>{
-        this.usuarioLoggeado.roles[0].rolNombre = sessionStorage.getItem('ROL');
-        this.usuarioLoggeado.email = sessionStorage.getItem('EMAIL');
-      },2500)
-    })
-  }
+    this.loginService.loginFirebse(this.email, this.password1).then(userCredentials=>{
+      console.log("USERCREDENTIALS: ", userCredentials)
+      if(userCredentials){
+        this.loginService.loginAPI(userCredentials).subscribe(usuario=>{
+          this.usuarioLoggeado = usuario;
+        })
+      }
+  }).catch((reason) => {
+    if (reason.code == "auth/user-not-found") {
+      Swal.fire({
+        title: "Error",
+        text: "El usuario no existe",
+        icon: "error",
+      });
+    } else {
+      if (reason.code == "auth/wrong-password") {
+        Swal.fire({
+          title: "Error",
+          text: "Contraseña incorrecta",
+          icon: "error",
+        });
+      } else {
+        if (reason.code == "auth/network-request-failed") {
+          Swal.fire({
+            title: "Error",
+            text: "Problema de red",
+            icon: "error",
+          });
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: reason,
+            icon: "error",
+          });
+        }
+      }
+    }
+    console.log("error:", reason);
+  });
+}
 
   exitLogin(): void {
     this.loginService.exitLogin();

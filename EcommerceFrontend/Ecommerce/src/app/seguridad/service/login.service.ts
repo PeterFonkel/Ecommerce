@@ -121,8 +121,6 @@ export class LoginService {
     this.http
       .delete(this.endPoint + "/api/usuarios/" + id, cabecera)
       .subscribe((response) => {
-
-
         if (response) {
           console.log("ok: ", response);
           Swal.fire({
@@ -149,77 +147,51 @@ export class LoginService {
       });
   }
 
-  //Login con usuario y contraseña
-  login(email, password): Observable<UsuarioImpl> {
+  //Comprobacion de usuario y contraseña con Firebase
+  loginFirebse(email: string, password: string): any {
     this.iniciarFirebase();
     var auth = firebase.auth();
-    //Autenticacion con Firebase
-    auth.signInWithEmailAndPassword(email, password).then(userCredentials => {
-      if (userCredentials) {
+    return auth.signInWithEmailAndPassword(email, password);
+  }
+ 
+  //Envio del token de Firebase a la API, la API lo vuelve a verificar con Google, 
+  //comprueba que el usuario de ese token tiene permisos en la API y devuelve un usuario
+  loginAPI(userCredentials: firebase.auth.UserCredential): Observable<UsuarioImpl> {
+    userCredentials.user.getIdToken().then((idToken) => {
+      this.token = new TokenDto(idToken);
+      //Una vez autenticado con Firebase y recibido un token, se envia para la autenticacion en la API.
+      this.http.post<TokenDto>(this.endPoint + "/oauth/google", this.token, cabecera).subscribe(response => {
         this.usuario.email = userCredentials.user.email;
-        userCredentials.user.getIdToken().then((idToken) => {
-          this.token = new TokenDto(idToken);
-          this.tokenService.setToken(idToken);
-          this.setIsLoggedFlagObs(true);
-          //Una vez autenticado con Firebase y recibido un token, se envia para la autenticacion en el Back.
-          this.http.post<TokenDto>(this.endPoint + "/oauth/google", this.token, cabecera).subscribe(response => {
-            this.token = response;
-            this.tokenService.setToken(response.value);
-            this.http.get<any>(this.endPoint + "/api/usuarios/search/findByEmail?email=" + userCredentials.user.email, cabecera).subscribe(response => {
-              this.mapearUsuario(response).subscribe(usuarioMapeado => {
-                this.usuario = usuarioMapeado;
-                // if(this.usuario.roles[0].rolNombre == "ROLE_ADMIN"){
-                //   this.setIAdminFlagObs(true);
-                // }
-              });
-
-              if (response) {
-                console.log("ok: ", response);
-                Swal.fire({
-                  title: `Bienvenido ${response.nombre}`,
-                  icon: "success",
-                });
-              }
-            });
+        this.setIsLoggedFlagObs(true);
+        this.token = response;
+        this.tokenService.setToken(response.value);
+        this.http.get<any>(this.endPoint + "/api/usuarios/search/findByEmail?email=" + userCredentials.user.email, cabecera).subscribe(response => {
+          this.mapearUsuario(response).subscribe(usuarioMapeado => {
+            this.usuario = usuarioMapeado;
           });
-        });
-      }
-    })
-      .catch((reason) => {
-        if (reason.code == "auth/user-not-found") {
-          Swal.fire({
-            title: "Error",
-            text: "El usuario no existe",
-            icon: "error",
-          });
-        } else {
-          if (reason.code == "auth/wrong-password") {
+          if (response) {
+            console.log("ok: ", response);
             Swal.fire({
-              title: "Error",
-              text: "Contraseña incorrecta",
-              icon: "error",
+              title: `Bienvenido ${response.nombre}`,
+              icon: "success",
             });
-          } else {
-            if (reason.code == "auth/network-request-failed") {
-              Swal.fire({
-                title: "Error",
-                text: "Problema de red",
-                icon: "error",
-              });
-            } else {
-              Swal.fire({
-                title: "Error",
-                text: reason,
-                icon: "error",
-              });
-            }
           }
-        }
-
-
-        console.log("error:", reason);
+        });
+      }, error=>{
+        this.usuario.email = null;
+        this.setIsLoggedFlagObs(false);
+        Swal.fire({
+          title: "Error",
+          text: "Error al autenticar en la API",
+          icon: "error",
+        });
       });
+    });
     return of(this.usuario);
+  }
+
+  checkLogin(): Observable<any> {
+    return this.http.get<any>(this.endPoint + "/api/usuarios/search/findByEmail?email=" + sessionStorage.getItem("EMAIL"), cabecera);
   }
 
   //Salir del login
