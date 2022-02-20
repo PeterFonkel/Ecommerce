@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       setTimeout(()=>{
         this.usuarioLoggeado.roles[0].rolNombre = sessionStorage.getItem('ROL');
         this.usuarioLoggeado.email = sessionStorage.getItem('EMAIL');
-      },1500)
+      },2500)
     })
   }
 

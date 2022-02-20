@@ -122,7 +122,7 @@ export class LoginService {
       .delete(this.endPoint + "/api/usuarios/" + id, cabecera)
       .subscribe((response) => {
 
-        
+
         if (response) {
           console.log("ok: ", response);
           Swal.fire({
@@ -168,9 +168,9 @@ export class LoginService {
             this.http.get<any>(this.endPoint + "/api/usuarios/search/findByEmail?email=" + userCredentials.user.email, cabecera).subscribe(response => {
               this.mapearUsuario(response).subscribe(usuarioMapeado => {
                 this.usuario = usuarioMapeado;
-                if(this.usuario.roles[0].rolNombre == "ROLE_ADMIN"){
-                  this.setIAdminFlagObs(true);
-                }
+                // if(this.usuario.roles[0].rolNombre == "ROLE_ADMIN"){
+                //   this.setIAdminFlagObs(true);
+                // }
               });
 
               if (response) {
@@ -184,14 +184,39 @@ export class LoginService {
           });
         });
       }
-
     })
       .catch((reason) => {
-        Swal.fire({
-          title: "Error",
-          text: "Usuario o contraseña erroneas",
-          icon: "error",
-        });
+        if (reason.code == "auth/user-not-found") {
+          Swal.fire({
+            title: "Error",
+            text: "El usuario no existe",
+            icon: "error",
+          });
+        } else {
+          if (reason.code == "auth/wrong-password") {
+            Swal.fire({
+              title: "Error",
+              text: "Contraseña incorrecta",
+              icon: "error",
+            });
+          } else {
+            if (reason.code == "auth/network-request-failed") {
+              Swal.fire({
+                title: "Error",
+                text: "Problema de red",
+                icon: "error",
+              });
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: reason,
+                icon: "error",
+              });
+            }
+          }
+        }
+
+
         console.log("error:", reason);
       });
     return of(this.usuario);
