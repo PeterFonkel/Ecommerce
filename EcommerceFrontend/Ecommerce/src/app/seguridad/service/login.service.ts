@@ -50,12 +50,12 @@ export class LoginService {
 
   getIsAdminFlagObs(): Observable<boolean> {
     if (this.getRol() == "ROLE_ADMIN") {
-      this.setIAdminFlagObs(true);
+      this.setIsAdminFlagObs(true);
     }
     return this.isAdminFlag$.asObservable();
   }
 
-  setIAdminFlagObs(isAdmin: boolean) {
+  setIsAdminFlagObs(isAdmin: boolean) {
     this.isAdminFlag$.next(isAdmin);
   }
 
@@ -85,7 +85,6 @@ export class LoginService {
                   text: usuarioNuevo.email,
                   icon: "success",
                 });
-
               } else {
                 catchError((e) => {
                   Swal.fire({
@@ -153,7 +152,7 @@ export class LoginService {
     var auth = firebase.auth();
     return auth.signInWithEmailAndPassword(email, password);
   }
- 
+
   //Envio del token de Firebase a la API, la API lo vuelve a verificar con Google, 
   //comprueba que el usuario de ese token tiene permisos en la API y devuelve un usuario
   loginAPI(userCredentials: firebase.auth.UserCredential): Observable<UsuarioImpl> {
@@ -177,7 +176,7 @@ export class LoginService {
             });
           }
         });
-      }, error=>{
+      }, error => {
         this.usuario.email = null;
         this.setIsLoggedFlagObs(false);
         Swal.fire({
@@ -201,7 +200,7 @@ export class LoginService {
       this.usuario = new UsuarioImpl();
       this.tokenService.logOut();
       sessionStorage.clear();
-      this.setIAdminFlagObs(false);
+      this.setIsAdminFlagObs(false);
       this.setIsLoggedFlagObs(false);
     });
   }
@@ -224,7 +223,7 @@ export class LoginService {
         sessionStorage.setItem(ID_KEY, this.usuario.id);
 
         if (this.usuario.roles[0].rolNombre == "ROLE_ADMIN") {
-          this.setIAdminFlagObs(true);
+          this.setIsAdminFlagObs(true);
         }
       });
     return of(this.usuario);
