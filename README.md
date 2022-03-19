@@ -338,7 +338,7 @@ Esto creara un directorio dist que contendrá un directorio con el nombre del pr
 
 Instalacion de firebase-tools:
 ~~~ 
-npm install -g firebase-tool
+npm install -g firebase-tools
 ~~~
 
 Login en Firebase:
